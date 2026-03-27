@@ -47,73 +47,80 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.995 0 0);
-  --foreground: oklch(0.18 0.01 260);
+  --radius: 0.5rem;
+  /* Warm off-white — textbook page feel, not clinical */
+  --background: oklch(0.99 0.003 90);
+  --foreground: oklch(0.15 0.02 265);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 260);
+  --card-foreground: oklch(0.15 0.02 265);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 260);
-  /* Teal-blue — professional, trustworthy, modern */
-  --primary: oklch(0.55 0.14 230);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0.005 230);
-  --secondary-foreground: oklch(0.18 0.01 260);
-  --muted: oklch(0.965 0.003 260);
-  --muted-foreground: oklch(0.45 0.01 260);
-  --accent: oklch(0.95 0.02 230);
-  --accent-foreground: oklch(0.18 0.01 260);
+  --popover-foreground: oklch(0.15 0.02 265);
+  /* Deep indigo-navy — academic authority, trust */
+  --primary: oklch(0.42 0.17 265);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0.005 265);
+  --secondary-foreground: oklch(0.15 0.02 265);
+  --muted: oklch(0.962 0.005 265);
+  --muted-foreground: oklch(0.46 0.012 265);
+  /* Warm amber accent — learning CTAs and highlights */
+  --accent: oklch(0.96 0.018 90);
+  --accent-foreground: oklch(0.15 0.02 265);
+  /* Amber highlight for special CTAs */
+  --highlight: oklch(0.78 0.14 75);
+  --highlight-foreground: oklch(0.15 0.02 265);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.005 260);
-  --input: oklch(0.92 0.005 260);
-  --ring: oklch(0.55 0.14 230);
-  --chart-1: oklch(0.55 0.14 230);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0.18 0.01 260);
-  --sidebar-primary: oklch(0.55 0.14 230);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.18 0.01 260);
-  --sidebar-border: oklch(0.92 0 0);
-  --sidebar-ring: oklch(0.55 0.14 230);
+  --border: oklch(0.91 0.008 265);
+  --input: oklch(0.91 0.008 265);
+  --ring: oklch(0.42 0.17 265);
+  --chart-1: oklch(0.42 0.17 265);
+  --chart-2: oklch(0.55 0.15 200);
+  --chart-3: oklch(0.65 0.13 160);
+  --chart-4: oklch(0.78 0.14 75);
+  --chart-5: oklch(0.62 0.18 30);
+  --sidebar: oklch(0.985 0.003 265);
+  --sidebar-foreground: oklch(0.15 0.02 265);
+  --sidebar-primary: oklch(0.42 0.17 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.96 0.005 265);
+  --sidebar-accent-foreground: oklch(0.15 0.02 265);
+  --sidebar-border: oklch(0.91 0.008 265);
+  --sidebar-ring: oklch(0.42 0.17 265);
 }
 
 .dark {
-  --background: oklch(0.13 0.01 260);
-  --foreground: oklch(0.95 0.005 260);
-  --card: oklch(0.17 0.01 260);
-  --card-foreground: oklch(0.95 0.005 260);
-  --popover: oklch(0.17 0.01 260);
-  --popover-foreground: oklch(0.95 0.005 260);
-  --primary: oklch(0.65 0.14 230);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.22 0.01 260);
-  --secondary-foreground: oklch(0.95 0.005 260);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.6 0.01 260);
-  --accent: oklch(0.22 0.01 260);
-  --accent-foreground: oklch(0.95 0.005 260);
+  --background: oklch(0.12 0.015 265);
+  --foreground: oklch(0.94 0.006 265);
+  --card: oklch(0.16 0.015 265);
+  --card-foreground: oklch(0.94 0.006 265);
+  --popover: oklch(0.16 0.015 265);
+  --popover-foreground: oklch(0.94 0.006 265);
+  --primary: oklch(0.62 0.18 265);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.21 0.015 265);
+  --secondary-foreground: oklch(0.94 0.006 265);
+  --muted: oklch(0.21 0.015 265);
+  --muted-foreground: oklch(0.58 0.012 265);
+  --accent: oklch(0.21 0.015 265);
+  --accent-foreground: oklch(0.94 0.006 265);
+  --highlight: oklch(0.72 0.14 75);
+  --highlight-foreground: oklch(0.12 0.015 265);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.28 0.01 260);
-  --input: oklch(0.28 0.01 260);
-  --ring: oklch(0.65 0.14 230);
-  --chart-1: oklch(0.65 0.14 230);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
+  --border: oklch(0.27 0.015 265);
+  --input: oklch(0.27 0.015 265);
+  --ring: oklch(0.62 0.18 265);
+  --chart-1: oklch(0.62 0.18 265);
+  --chart-2: oklch(0.65 0.16 200);
+  --chart-3: oklch(0.72 0.14 75);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.17 0.01 260);
-  --sidebar-foreground: oklch(0.95 0.005 260);
-  --sidebar-primary: oklch(0.65 0.14 230);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.22 0.01 260);
-  --sidebar-accent-foreground: oklch(0.95 0.005 260);
-  --sidebar-border: oklch(0.28 0.01 260);
-  --sidebar-ring: oklch(0.65 0.14 230);
+  --sidebar: oklch(0.16 0.015 265);
+  --sidebar-foreground: oklch(0.94 0.006 265);
+  --sidebar-primary: oklch(0.62 0.18 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.21 0.015 265);
+  --sidebar-accent-foreground: oklch(0.94 0.006 265);
+  --sidebar-border: oklch(0.27 0.015 265);
+  --sidebar-ring: oklch(0.62 0.18 265);
 }
 
 @layer base {
@@ -122,6 +129,28 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Ad slot container — blends naturally as a resource recommendation zone */
+  .ad-slot {
+    @apply rounded-xl border border-dashed border-border bg-muted/40 p-4 text-center;
+    position: relative;
+  }
+  .ad-slot::before {
+    content: 'Advertisement';
+    @apply absolute -top-2.5 left-1/2 -translate-x-1/2 bg-background px-2 text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60;
+  }
+
+  /* Section alternating background for visual separation */
+  .section-alt {
+    @apply bg-secondary/40;
+  }
+
+  /* Learning path / guide step badge */
+  .guide-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold tracking-wide;
   }
 }
 

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Image as ImageIcon, Eye, Tag, MoveRight } from 'lucide-react';
 import Image from 'next/image';
 // import { SidebarAd } from '@/components/adsense/sidebar-ad';
@@ -58,15 +57,15 @@ export function TrendingSidebar({
     <aside className='space-y-8'>
       {/* Trending Posts Section */}
       <div>
-        <div className='mb-6 pb-2 border-b-2 border-primary flex justify-between items-center'>
-          <h2 className='text-lg font-bold text-foreground'>
+        <div className='mb-5 flex items-center justify-between border-b border-border pb-3'>
+          <h2 className='text-sm font-bold uppercase tracking-widest text-muted-foreground'>
             Popular Guides
           </h2>
           <Link
             href='/blog?sort=views-desc'
-            className='text-sm text-primary hover:text-primary/80 inline-flex items-center gap-1'>
-            <span>View all</span>
-            <MoveRight className='h-4 w-4' />
+            className='text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1'>
+            <span>See all</span>
+            <MoveRight className='h-3.5 w-3.5' />
           </Link>
         </div>
         <div className='space-y-5'>
@@ -109,16 +108,10 @@ export function TrendingSidebar({
               </h3>
             </Link>
             <div className='flex items-center gap-2'>
-              <Avatar className='h-7 w-7 border-2 border-white/30'>
-                <AvatarImage
-                  src={currentFeatured.author.avatar}
-                  alt={currentFeatured.author.name}
-                />
-                <AvatarFallback className='bg-blue-600 text-white text-xs'>
-                  {currentFeatured.author.name.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <span className='text-sm text-slate-200'>
+              <div className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold'>
+                {currentFeatured.author.name.charAt(0).toUpperCase()}
+              </div>
+              <span className='text-sm text-white/80'>
                 {currentFeatured.author.name}
               </span>
             </div>
@@ -144,19 +137,21 @@ export function TrendingSidebar({
         </div>
       )}
 
-      {/* Tags section - below carousel, above ads */}
+      {/* Tags section */}
       {tags.length > 0 && (
         <div>
-          <h2 className='text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-primary flex items-center gap-2'>
-            <Tag className='h-4 w-4 text-primary' />
-            Tags
-          </h2>
+          <div className='mb-5 flex items-center gap-2 border-b border-border pb-3'>
+            <Tag className='h-3.5 w-3.5 text-muted-foreground' />
+            <h2 className='text-sm font-bold uppercase tracking-widest text-muted-foreground'>
+              Tags
+            </h2>
+          </div>
           <div className='flex flex-wrap gap-2'>
             {tags.map((t) => (
               <Link
                 key={t.id}
                 href={`/tag/${t.slug}`}
-                className='inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-colors'>
+                className='inline-flex items-center rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:bg-primary/8 hover:text-primary transition-colors'>
                 #{t.name}
               </Link>
             ))}
@@ -177,47 +172,39 @@ function TrendingPostItem({ post }: { post: Post }) {
     post.image && post.image !== '/placeholder.svg' && post.image.trim() !== '';
 
   return (
-    <Link href={`/blog/${post.slug}`} className='flex gap-4 group'>
+    <Link href={`/blog/${post.slug}`} className='flex gap-3 group'>
       {/* Thumbnail */}
-      <div className='w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 relative'>
+      <div className='w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-muted relative'>
         {hasImage ? (
           <Image
             src={post.image}
             alt={post.title}
             fill
             className='object-cover group-hover:scale-105 transition-transform duration-300'
-            sizes='80px'
+            sizes='64px'
           />
         ) : (
           <div className='w-full h-full flex items-center justify-center'>
-            <ImageIcon className='h-6 w-6 text-slate-300 dark:text-slate-600' />
+            <ImageIcon className='h-5 w-5 text-muted-foreground/30' />
           </div>
         )}
       </div>
 
       {/* Content */}
       <div className='flex-1 min-w-0'>
-        <span className='text-xs text-slate-500 dark:text-slate-400 block mb-1'>
-          {post.date}
-        </span>
-        <h3 className='font-semibold text-sm text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+        <h3 className='font-semibold text-sm text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors mb-1'>
           {post.title}
         </h3>
-        <div className='flex items-center gap-2 mt-2'>
-          <Avatar className='h-5 w-5'>
-            <AvatarImage src={post.author.avatar} alt={post.author.name} />
-            <AvatarFallback className='bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-[10px]'>
-              {post.author.name.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <span className='text-xs text-slate-500 dark:text-slate-400'>
-            {post.author.name}
-          </span>
+        <div className='flex items-center gap-2 text-xs text-muted-foreground'>
+          <span>{post.date}</span>
           {post.analytics?.views !== undefined && (
-            <div className='flex items-center gap-1 ml-auto text-slate-400'>
-              <Eye className='h-3 w-3' />
-              <span className='text-[10px]'>{post.analytics.views}</span>
-            </div>
+            <>
+              <span>·</span>
+              <span className='inline-flex items-center gap-1'>
+                <Eye className='h-3 w-3' />
+                {post.analytics.views.toLocaleString()}
+              </span>
+            </>
           )}
         </div>
       </div>

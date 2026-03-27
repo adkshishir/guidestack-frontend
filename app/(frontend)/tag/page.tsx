@@ -85,7 +85,8 @@ export default async function TagsPage() {
       />
 
       <PageHeader
-        title='All Tags'
+        title='Browse by Tag'
+        description='Find guides by topic tag. Click any tag to explore related content.'
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Tags', href: '/tag' },
@@ -94,23 +95,23 @@ export default async function TagsPage() {
 
       <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
         {tags.length === 0 ? (
-          <div className='text-center py-12'>
-            <Tag className='mx-auto h-12 w-12 text-muted-foreground' />
-            <h3 className='mt-4 text-lg font-medium text-foreground'>
-              No tags found
+          <div className='flex flex-col items-center py-20 text-center'>
+            <Tag className='h-12 w-12 text-muted-foreground/30 mb-4' />
+            <h3 className='text-lg font-semibold text-foreground mb-2'>
+              No tags yet
             </h3>
-            <p className='mt-2 text-muted-foreground'>
-              Check back later for new content.
+            <p className='text-sm text-muted-foreground'>
+              Check back soon for new content.
             </p>
           </div>
         ) : (
-          <div className='flex flex-wrap gap-3'>
+          <div className='flex flex-wrap gap-2.5'>
             {tags.map((tag) => (
               <Link
                 key={tag.id}
                 href={`/tag/${tag.slug}`}
-                className='inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-all hover:shadow-md hover:border-primary/50 hover:text-primary'>
-                <Tag className='h-4 w-4' />
+                className='inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:border-primary/40 hover:bg-primary/8 hover:text-primary transition-all duration-150 shadow-sm'>
+                <Tag className='h-3.5 w-3.5' />
                 {tag.name}
               </Link>
             ))}

@@ -263,19 +263,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         />
       )}
 
-      <main className='min-h-screen bg-slate-50 dark:bg-slate-950'>
+      <main className='min-h-screen bg-background'>
         <PageHeader
           title={post.title}
           breadcrumbs={[
             { label: 'Home', href: '/' },
-            { label: 'Blog', href: '/blog' },
+            { label: 'All Guides', href: '/blog' },
             { label: post.title, href: `/blog/${post.slug}` },
           ]}
         />
 
-        <div className='mx-auto max-w-7xl lg:p-4'>
+        <div className='mx-auto max-w-7xl lg:p-6'>
           <BlogPostLayout>
-            <div className='bg-white py-4 dark:bg-slate-900 rounded-xl shadow-sm '>
+            <div className='bg-card rounded-xl border border-border shadow-sm py-4'>
               <ViewTracker postId={post.id} />
               <BlogPostDetail post={transformedPost} />
             </div>

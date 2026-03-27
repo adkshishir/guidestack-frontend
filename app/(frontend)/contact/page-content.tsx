@@ -18,7 +18,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { contactApi, CreateContactDto } from '@/lib/api/contact';
 import { toast } from 'sonner';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, Mail, MapPin, Clock } from 'lucide-react';
 import { MultiplexAd } from '@/components/adsense';
 
 const contactSchema = z.object({
@@ -27,6 +27,24 @@ const contactSchema = z.object({
   subject: z.string().max(255, 'Subject is too long').optional(),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 });
+
+const INFO_CARDS = [
+  {
+    icon: Mail,
+    title: 'Email',
+    value: 'contact@guidestack.com',
+  },
+  {
+    icon: MapPin,
+    title: 'Location',
+    value: 'Global Digital Presence',
+  },
+  {
+    icon: Clock,
+    title: 'Response Time',
+    value: 'Within 24 hours',
+  },
+];
 
 export function ContactContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,7 +83,7 @@ export function ContactContent() {
             'Failed to send message. Please try again.',
         );
       }
-    } catch (error) {
+    } catch {
       toast.error(
         'An error occurred while sending your message. Please try again.',
       );
@@ -75,9 +93,10 @@ export function ContactContent() {
   };
 
   return (
-    <main className='min-h-screen bg-slate-50 dark:bg-slate-950'>
+    <main className='min-h-screen bg-background'>
       <PageHeader
         title='Contact Us'
+        description="Have a question or feedback? We'd love to hear from you."
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Contact', href: '/contact' },
@@ -85,39 +104,49 @@ export function ContactContent() {
       />
 
       <div className='mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8'>
-        <div className='mb-8 text-center'>
-          <p className='text-lg text-slate-600 dark:text-slate-400'>
-            Have a question or want to get in touch? We&apos;d love to hear from
-            you. Send us a message and we&apos;ll respond as soon as possible.
-          </p>
+
+        {/* Info cards */}
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3 mb-10'>
+          {INFO_CARDS.map(({ icon: Icon, title, value }) => (
+            <div
+              key={title}
+              className='flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-5 text-center'>
+              <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10'>
+                <Icon className='h-5 w-5 text-primary' />
+              </div>
+              <h3 className='text-sm font-semibold text-foreground'>{title}</h3>
+              <p className='text-xs text-muted-foreground'>{value}</p>
+            </div>
+          ))}
         </div>
 
+        {/* Success message */}
         {isSubmitted && (
-          <div className='mb-6 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-4 flex items-center gap-3'>
-            <CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400' />
-            <p className='text-green-800 dark:text-green-300'>
-              Your message has been sent successfully! We&apos;ll get back to
-              you soon.
+          <div className='mb-6 rounded-xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-4 flex items-center gap-3'>
+            <CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 shrink-0' />
+            <p className='text-sm text-green-800 dark:text-green-300'>
+              Your message has been sent successfully! We&apos;ll get back to you soon.
             </p>
           </div>
         )}
 
-        <div className='rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-sm'>
+        {/* Form */}
+        <div className='rounded-2xl border border-border bg-card p-7 md:p-8 shadow-sm'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-              <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+              <div className='grid grid-cols-1 gap-5 md:grid-cols-2'>
                 <FormField
                   control={form.control}
                   name='name'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-slate-700 dark:text-slate-300'>
+                      <FormLabel className='text-foreground text-sm'>
                         Name *
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder='Your name'
-                          className='bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+                          className='bg-background border-input'
                           {...field}
                         />
                       </FormControl>
@@ -131,14 +160,14 @@ export function ContactContent() {
                   name='email'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='text-slate-700 dark:text-slate-300'>
+                      <FormLabel className='text-foreground text-sm'>
                         Email *
                       </FormLabel>
                       <FormControl>
                         <Input
                           type='email'
-                          placeholder='your.email@example.com'
-                          className='bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+                          placeholder='your@email.com'
+                          className='bg-background border-input'
                           {...field}
                         />
                       </FormControl>
@@ -153,13 +182,13 @@ export function ContactContent() {
                 name='subject'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-slate-700 dark:text-slate-300'>
+                    <FormLabel className='text-foreground text-sm'>
                       Subject
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='What is this regarding?'
-                        className='bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+                        placeholder='What is this about?'
+                        className='bg-background border-input'
                         {...field}
                       />
                     </FormControl>
@@ -173,13 +202,13 @@ export function ContactContent() {
                 name='message'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-slate-700 dark:text-slate-300'>
+                    <FormLabel className='text-foreground text-sm'>
                       Message *
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Your message here...'
-                        className='min-h-40 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+                        placeholder='Write your message here...'
+                        className='min-h-40 bg-background border-input'
                         {...field}
                       />
                     </FormControl>
@@ -191,10 +220,10 @@ export function ContactContent() {
               <Button
                 type='submit'
                 disabled={isSubmitting}
-                className='w-full md:w-auto'>
+                className='w-full md:w-auto font-semibold'>
                 {isSubmitting ? (
                   <>
-                    <div className='mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent'></div>
+                    <div className='mr-2 h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent' />
                     Sending...
                   </>
                 ) : (
@@ -208,35 +237,9 @@ export function ContactContent() {
           </Form>
         </div>
 
-        <div className='mt-12 grid grid-cols-1 gap-6 md:grid-cols-3'>
-          <div className='text-center p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800'>
-            <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-2'>
-              Email
-            </h3>
-            <p className='text-slate-600 dark:text-slate-400'>
-              contact@wealthalgor.com
-            </p>
-          </div>
-          <div className='text-center p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800'>
-            <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-2'>
-              Location
-            </h3>
-            <p className='text-slate-600 dark:text-slate-400'>
-              Global Digital Presence
-            </p>
-          </div>
-          <div className='text-center p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800'>
-            <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-2'>
-              Response Time
-            </h3>
-            <p className='text-slate-600 dark:text-slate-400'>
-              Within 24 hours
-            </p>
-          </div>
-        </div>
-
-        <div className='mt-16 pt-8'>
-          <MultiplexAd containerClassName='' />
+        {/* Ad slot */}
+        <div className='mt-14 ad-slot min-h-[200px] flex items-center justify-center'>
+          <MultiplexAd containerClassName='w-full' />
         </div>
       </div>
     </main>

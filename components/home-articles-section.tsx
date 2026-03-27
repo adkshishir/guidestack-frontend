@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArticleCard } from './article-card';
 import { TrendingSidebar } from './trending-sidebar';
 import { Pagination } from './pagination';
-import { Image as ImageIcon } from 'lucide-react';
+import { Search, BookOpen, Users, Layers } from 'lucide-react';
 
 interface Post {
   id: number;
@@ -53,23 +52,12 @@ export function HomeArticlesSection({
   tags = [],
 }: HomeArticlesSectionProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  if (!posts || posts.length === 0) {
-    return (
-      <section className='py-20 text-center'>
-        <div className='mx-auto max-w-7xl px-4'>
-          <p className='text-muted-foreground'>
-            No articles yet. Check back soon!
-          </p>
-        </div>
-      </section>
-    );
-  }
+  const totalGuides = posts.length;
+  const totalTopics = categories.length;
 
-  const featuredHero = posts[0];
-  const otherPosts = posts.slice(1);
-
-  const trendingPosts = [...otherPosts]
+  const trendingPosts = [...posts]
     .sort((a, b) => {
       const viewsA = (a as any).analytics?.views || 0;
       const viewsB = (b as any).analytics?.views || 0;
@@ -78,7 +66,7 @@ export function HomeArticlesSection({
     .slice(0, 6);
 
   const trendingSlugs = new Set(trendingPosts.map((p) => p.slug));
-  const mainGridPosts = otherPosts.filter((p) => !trendingSlugs.has(p.slug));
+  const mainGridPosts = posts.filter((p) => !trendingSlugs.has(p.slug));
 
   const totalPages = Math.ceil(mainGridPosts.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
@@ -90,155 +78,203 @@ export function HomeArticlesSection({
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     document
-      .getElementById('latest-articles')
+      .getElementById('latest-guides')
       ?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const hasHeroImage =
-    featuredHero.image &&
-    featuredHero.image !== '/placeholder.svg' &&
-    featuredHero.image.trim() !== '';
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/blog?search=${encodeURIComponent(searchQuery.trim())}`;
+    }
+  };
 
   return (
-    <section className='pb-16 bg-background'>
-      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        {/* Featured Hero */}
-        <div className='mb-16'>
-          <Link href={`/blog/${featuredHero.slug}`}>
-            <article className='group relative overflow-hidden rounded-2xl bg-card border border-border transition-shadow duration-300 hover:shadow-lg'>
-              <div className='grid lg:grid-cols-2 gap-0'>
-                {/* Image */}
-                <div className='relative h-72 lg:h-[28rem] overflow-hidden bg-muted'>
-                  {hasHeroImage ? (
-                    <Image
-                      src={featuredHero.image}
-                      alt={featuredHero.title}
-                      fill
-                      className='object-cover transition-transform duration-500 group-hover:scale-105'
-                      sizes='(max-width: 1024px) 100vw, 50vw'
-                      priority
-                    />
-                  ) : (
-                    <div className='w-full h-full flex items-center justify-center'>
-                      <ImageIcon className='h-20 w-20 text-muted-foreground/30' />
-                    </div>
-                  )}
-                </div>
+    <>
+      {/* ─── Educational Hero ─── */}
+      <section className='relative overflow-hidden bg-linear-to-br from-primary/5 via-background to-accent/30 border-b border-border'>
+        {/* Subtle grid pattern overlay */}
+        <div
+          className='absolute inset-0 opacity-[0.03]'
+          style={{
+            backgroundImage:
+              'linear-gradient(var(--foreground) 1px, transparent 1px), linear-gradient(90deg, var(--foreground) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }}
+        />
 
-                {/* Content */}
-                <div className='flex flex-col justify-center p-8 md:p-12 lg:p-14'>
-                  <div className='flex items-center gap-3 mb-5'>
-                    <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary'>
-                      {featuredHero.category || 'Featured'}
-                    </span>
-                    <span className='text-sm text-muted-foreground'>
-                      {featuredHero.date}
-                    </span>
-                  </div>
+        <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24'>
+          <div className='max-w-3xl mx-auto text-center'>
+            {/* Eyebrow */}
+            <div className='inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-1.5 mb-6'>
+              <BookOpen className='h-3.5 w-3.5 text-primary' />
+              <span className='text-xs font-semibold uppercase tracking-widest text-primary'>
+                Free Knowledge Platform
+              </span>
+            </div>
 
-                  <h1 className='text-2xl md:text-3xl font-extrabold mb-4 leading-tight text-foreground group-hover:text-primary transition-colors'>
-                    {featuredHero.title || 'Untitled Article'}
-                  </h1>
+            {/* Headline */}
+            <h1 className='text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1] mb-5'>
+              Learn Anything,{' '}
+              <span className='text-primary'>Step by Step</span>
+            </h1>
 
-                  <p className='text-muted-foreground text-base leading-relaxed mb-6 line-clamp-3'>
-                    {featuredHero.excerpt ||
-                      'Discover the latest insights and step-by-step guides...'}
-                  </p>
+            <p className='text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl mx-auto'>
+              In-depth guides written for clarity. From software development and
+              AI to personal finance — practical knowledge you can act on today.
+            </p>
 
-                  <div className='flex items-center gap-3 pt-5 border-t border-border'>
-                    <div className='w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm'>
-                      {featuredHero.author.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <p className='font-medium text-foreground text-sm'>
-                        {featuredHero.author.name}
-                      </p>
-                      <p className='text-xs text-muted-foreground'>
-                        {featuredHero.readTime || '5 min read'}
-                      </p>
-                    </div>
-                    <span className='ml-auto text-primary font-semibold text-sm group-hover:translate-x-1 transition-transform inline-flex items-center gap-1'>
-                      Read Guide
-                      <svg
-                        className='w-4 h-4'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'>
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth={2}
-                          d='M9 5l7 7-7 7'
-                        />
-                      </svg>
-                    </span>
-                  </div>
+            {/* Search bar */}
+            <form
+              onSubmit={handleSearchSubmit}
+              className='relative max-w-xl mx-auto mb-10'>
+              <div className='flex items-center gap-3 rounded-xl border-2 border-border bg-card px-4 py-3 shadow-md focus-within:border-primary transition-colors duration-200'>
+                <Search className='h-5 w-5 text-muted-foreground shrink-0' />
+                <input
+                  type='text'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder='Search guides, topics, tutorials...'
+                  className='flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none'
+                />
+                <div className='hidden sm:flex items-center gap-1 shrink-0'>
+                  <kbd className='inline-flex items-center rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground'>
+                    ⌘K
+                  </kbd>
                 </div>
               </div>
-            </article>
-          </Link>
-        </div>
+            </form>
 
-        {/* Latest Articles */}
-        <div className='mb-10' id='latest-articles'>
-          <h2 className='text-2xl md:text-3xl font-bold text-foreground'>
-            Latest Guides
-          </h2>
-          <p className='mt-2 text-muted-foreground'>
-            Step-by-step tutorials and in-depth technical articles.
-          </p>
-        </div>
-
-        <div className='grid lg:grid-cols-3 gap-10'>
-          {/* Main Grid */}
-          <div className='lg:col-span-2'>
-            {paginatedGridPosts.length > 0 ? (
-              <>
-                <div className='grid sm:grid-cols-2 gap-6'>
-                  {paginatedGridPosts.map((post: any) => (
-                    <ArticleCard
-                      key={post.id}
-                      image={post.image}
-                      title={post.title}
-                      author={post.author}
-                      date={post.date}
-                      slug={post.slug}
-                      excerpt={post.excerpt}
-                      titleTag='h3'
-                      analytics={post.analytics}
-                    />
-                  ))}
+            {/* Stats row */}
+            <div className='flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground'>
+              <div className='flex items-center gap-2'>
+                <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10'>
+                  <BookOpen className='h-4 w-4 text-primary' />
                 </div>
-
-                {totalPages > 1 && (
-                  <div className='pt-10 border-t border-border mt-10'>
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className='text-center py-16 bg-muted/30 rounded-2xl border border-dashed border-border'>
-                <p className='text-muted-foreground'>
-                  More guides coming soon!
-                </p>
+                <span>
+                  <strong className='text-foreground font-bold'>
+                    {totalGuides > 0 ? `${totalGuides}+` : '—'}
+                  </strong>{' '}
+                  Guides
+                </span>
               </div>
-            )}
+              <div className='h-4 w-px bg-border hidden sm:block' />
+              <div className='flex items-center gap-2'>
+                <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10'>
+                  <Layers className='h-4 w-4 text-primary' />
+                </div>
+                <span>
+                  <strong className='text-foreground font-bold'>
+                    {totalTopics > 0 ? `${totalTopics}` : '—'}
+                  </strong>{' '}
+                  Topics
+                </span>
+              </div>
+              <div className='h-4 w-px bg-border hidden sm:block' />
+              <div className='flex items-center gap-2'>
+                <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10'>
+                  <Users className='h-4 w-4 text-primary' />
+                </div>
+                <span>
+                  <strong className='text-foreground font-bold'>Free</strong>{' '}
+                  Forever
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Latest Guides + Sidebar ─── */}
+      <section className='py-14 bg-background' id='latest-guides'>
+        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+
+          {/* Section header */}
+          <div className='flex items-end justify-between mb-8'>
+            <div>
+              <h2 className='text-2xl md:text-3xl font-bold text-foreground tracking-tight'>
+                Latest Guides
+              </h2>
+              <p className='mt-1.5 text-muted-foreground text-sm'>
+                Practical, step-by-step tutorials updated regularly.
+              </p>
+            </div>
+            <Link
+              href='/blog'
+              className='hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
+              View all guides →
+            </Link>
           </div>
 
-          {/* Sidebar */}
-          <aside className='lg:col-span-1'>
-            <TrendingSidebar
-              trendingPosts={trendingPosts}
-              featuredPosts={trendingPosts}
-              tags={tags}
-            />
-          </aside>
+          {posts.length === 0 ? (
+            <div className='rounded-2xl border border-dashed border-border bg-muted/30 py-20 text-center'>
+              <BookOpen className='h-10 w-10 text-muted-foreground/40 mx-auto mb-3' />
+              <p className='text-muted-foreground'>
+                No guides yet. Check back soon!
+              </p>
+            </div>
+          ) : (
+            <div className='grid lg:grid-cols-3 gap-10'>
+              {/* Main content grid */}
+              <div className='lg:col-span-2'>
+                {paginatedGridPosts.length > 0 ? (
+                  <>
+                    <div className='grid sm:grid-cols-2 gap-5'>
+                      {paginatedGridPosts.map((post: any, index: number) => (
+                        <ArticleCard
+                          key={post.id}
+                          image={post.image}
+                          title={post.title}
+                          author={post.author}
+                          date={post.date}
+                          slug={post.slug}
+                          excerpt={post.excerpt}
+                          category={post.category}
+                          readTime={post.readTime}
+                          titleTag='h3'
+                          analytics={post.analytics}
+                        />
+                      ))}
+                    </div>
+
+                    {totalPages > 1 && (
+                      <div className='mt-10 pt-8 border-t border-border'>
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          onPageChange={handlePageChange}
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className='rounded-2xl border border-dashed border-border bg-muted/20 py-16 text-center'>
+                    <p className='text-muted-foreground text-sm'>
+                      More guides coming soon!
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Sidebar */}
+              <aside className='lg:col-span-1 space-y-6'>
+                <TrendingSidebar
+                  trendingPosts={trendingPosts}
+                  featuredPosts={trendingPosts}
+                  tags={tags}
+                />
+
+                {/* Ad slot */}
+                <div className='ad-slot min-h-[250px] flex items-center justify-center'>
+                  <p className='text-xs text-muted-foreground/50'>
+                    Your ad here
+                  </p>
+                </div>
+              </aside>
+            </div>
+          )}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

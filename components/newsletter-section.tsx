@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Mail, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Loader2, AlertCircle, Sparkles } from 'lucide-react';
 import { newsletterApi } from '@/lib/api/newsletter';
 
 export function NewsletterSection() {
@@ -14,7 +14,6 @@ export function NewsletterSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!email || isLoading) return;
 
     setIsLoading(true);
@@ -37,12 +36,11 @@ export function NewsletterSection() {
           response.error?.message || 'Failed to subscribe. Please try again.',
         );
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
       setMessage('An error occurred. Please try again later.');
     } finally {
       setIsLoading(false);
-      // Reset after 5 seconds
       setTimeout(() => {
         setStatus('idle');
         setMessage('');
@@ -51,76 +49,94 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className='mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8'>
-      <div className='rounded-xl bg-primary/10 p-8 md:p-12 shadow-sm'>
-        <div className='max-w-2xl mx-auto text-center'>
-          <div className='flex justify-center mb-6'>
-            <div className='rounded-full bg-primary/20 p-4 animate-pulse'>
-              <Mail className='h-8 w-8 text-primary' />
+    <section className='py-14 bg-background border-t border-border'>
+      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <div className='relative overflow-hidden rounded-2xl bg-primary px-8 py-12 md:px-14 md:py-16 shadow-lg'>
+          {/* Subtle decorative pattern */}
+          <div
+            className='absolute inset-0 opacity-[0.06]'
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+              backgroundSize: '28px 28px',
+            }}
+          />
+          {/* Glow blobs */}
+          <div className='absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl pointer-events-none' />
+          <div className='absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-white/10 blur-2xl pointer-events-none' />
+
+          <div className='relative max-w-2xl mx-auto text-center'>
+            {/* Eyebrow */}
+            <div className='inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 mb-5'>
+              <Sparkles className='h-3.5 w-3.5 text-white/80' />
+              <span className='text-xs font-semibold uppercase tracking-widest text-white/80'>
+                Weekly Digest
+              </span>
             </div>
+
+            <h2 className='text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight'>
+              Level Up Your Skills Weekly
+            </h2>
+            <p className='text-base md:text-lg text-white/75 mb-8 leading-relaxed'>
+              Get curated guides, practical tutorials, and expert insights
+              delivered every week. No noise — only content that makes you
+              better.
+            </p>
+
+            <form
+              onSubmit={handleSubmit}
+              className='flex flex-col sm:flex-row gap-3 max-w-md mx-auto'>
+              <Input
+                type='email'
+                placeholder='your@email.com'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className='flex-1 bg-white/15 border-white/25 text-white placeholder:text-white/50 focus-visible:ring-white/40 focus-visible:border-white/50'
+                disabled={isLoading || status === 'success'}
+                aria-label='Email address'
+              />
+              <Button
+                type='submit'
+                size='lg'
+                disabled={isLoading || status === 'success'}
+                className='shrink-0 bg-white text-primary font-bold hover:bg-white/90 transition-colors shadow-md'>
+                {isLoading ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Subscribing...
+                  </>
+                ) : status === 'success' ? (
+                  <>
+                    <CheckCircle2 className='mr-2 h-4 w-4' />
+                    Subscribed!
+                  </>
+                ) : (
+                  'Subscribe Free'
+                )}
+              </Button>
+            </form>
+
+            {message && (
+              <div
+                className={`mt-4 inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm ${
+                  status === 'success'
+                    ? 'bg-green-400/20 text-green-100'
+                    : 'bg-red-400/20 text-red-100'
+                }`}>
+                {status === 'success' ? (
+                  <CheckCircle2 className='h-4 w-4 shrink-0' />
+                ) : (
+                  <AlertCircle className='h-4 w-4 shrink-0' />
+                )}
+                <span>{message}</span>
+              </div>
+            )}
+
+            <p className='text-xs text-white/50 mt-5'>
+              No spam, ever. Unsubscribe with one click anytime.
+            </p>
           </div>
-          <h2 className='text-3xl md:text-4xl font-bold text-foreground mb-4'>
-            Stay Updated
-          </h2>
-          <p className='text-lg md:text-xl text-muted-foreground mb-8'>
-            Get the latest articles, insights, and updates delivered straight to
-            your inbox. Join our community of readers who never miss a story.
-          </p>
-
-          <form
-            onSubmit={handleSubmit}
-            className='flex flex-col sm:flex-row gap-4 max-w-md mx-auto'>
-            <Input
-              type='email'
-              placeholder='Enter your email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className='flex-1 bg-white'
-              disabled={isLoading || status === 'success'}
-              aria-label='Email address'
-            />
-            <Button
-              type='submit'
-              size='lg'
-              disabled={isLoading || status === 'success'}
-              className='w-full sm:w-auto'>
-              {isLoading ? (
-                <>
-                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  Subscribing...
-                </>
-              ) : status === 'success' ? (
-                <>
-                  <CheckCircle2 className='mr-2 h-4 w-4' />
-                  Subscribed!
-                </>
-              ) : (
-                'Subscribe'
-              )}
-            </Button>
-          </form>
-
-          {/* Status message */}
-          {message && (
-            <div
-              className={`mt-4 p-3 rounded-lg flex items-center justify-center gap-2 text-sm ${
-                status === 'success'
-                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
-                  : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
-              }`}>
-              {status === 'success' ? (
-                <CheckCircle2 className='h-4 w-4' />
-              ) : (
-                <AlertCircle className='h-4 w-4' />
-              )}
-              <span>{message}</span>
-            </div>
-          )}
-
-          <p className='text-sm text-muted-foreground mt-4'>
-            We respect your privacy. Unsubscribe at any time.
-          </p>
         </div>
       </div>
     </section>

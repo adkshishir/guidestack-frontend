@@ -196,10 +196,10 @@ export default async function CategoryPage({
         }}
       />
 
-      <main className='min-h-screen bg-slate-50 dark:bg-slate-950'>
+      <main className='min-h-screen bg-background'>
         {/* Category Hero with Image */}
         {category.featuredImage?.url || category.featuredImage?.filePath ? (
-          <div className='relative h-64 md:h-80 w-full overflow-hidden'>
+          <div className='relative h-56 md:h-72 w-full overflow-hidden'>
             <Image
               src={
                 category.featuredImage.url || category.featuredImage.filePath!
@@ -210,58 +210,49 @@ export default async function CategoryPage({
               priority
               sizes='100vw'
             />
-            <div className='absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent' />
+            <div className='absolute inset-0 bg-linear-to-t from-black/75 via-black/30 to-transparent' />
             <div className='absolute bottom-0 left-0 right-0 p-6 md:p-8'>
               <div className='mx-auto max-w-7xl'>
-                <nav className='mb-2 flex flex-wrap gap-2 text-sm'>
-                  <a
-                    href='/'
-                    className='text-white/80 hover:text-white transition-colors'>
-                    Home
-                  </a>
-                  <span className='text-white/50'>/</span>
-                  <a
-                    href='/category'
-                    className='text-white/80 hover:text-white transition-colors'>
-                    Categories
-                  </a>
-                  <span className='text-white/50'>/</span>
-                  <span className='text-white'>{category.name}</span>
+                <nav className='mb-2 flex flex-wrap items-center gap-1.5 text-xs text-white/70'>
+                  <a href='/' className='hover:text-white transition-colors'>Home</a>
+                  <span>/</span>
+                  <a href='/category' className='hover:text-white transition-colors'>Topics</a>
+                  <span>/</span>
+                  <span className='text-white font-medium'>{category.name}</span>
                 </nav>
-                <h1 className='text-3xl md:text-4xl font-bold text-white'>
+                <h1 className='text-2xl md:text-3xl font-bold text-white tracking-tight'>
                   {category.name}
                 </h1>
+                {category.description && (
+                  <p className='mt-2 text-white/75 text-sm max-w-2xl'>
+                    {category.description}
+                  </p>
+                )}
               </div>
             </div>
           </div>
         ) : (
           <PageHeader
             title={category.name}
+            description={category.description}
             breadcrumbs={[
               { label: 'Home', href: '/' },
-              { label: 'Categories', href: '/category' },
+              { label: 'Topics', href: '/category' },
               { label: category.name, href: `/category/${category.slug}` },
             ]}
           />
         )}
 
-        <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
-          {/* Category Description */}
-          {category.description && (
-            <p className='text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-3xl'>
-              {category.description}
-            </p>
-          )}
-
-          {/* Posts Count */}
-          <p className='text-sm text-slate-500 dark:text-slate-400 mb-6'>
-            {posts.length} {posts.length === 1 ? 'article' : 'articles'} found
+        <div className='mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8'>
+          {/* Posts count row */}
+          <p className='text-xs text-muted-foreground mb-6 font-medium uppercase tracking-widest'>
+            {posts.length} {posts.length === 1 ? 'guide' : 'guides'} in this topic
           </p>
 
           {/* Posts Grid */}
           {paginatedPosts.length > 0 ? (
             <>
-              <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+              <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {paginatedPosts.map((post) => (
                   <ArticleCard
                     key={post.id}
@@ -271,6 +262,8 @@ export default async function CategoryPage({
                     date={post.date}
                     slug={post.slug}
                     excerpt={post.excerpt}
+                    category={post.category}
+                    readTime={post.readTime}
                     titleTag='h2'
                     analytics={post.analytics}
                   />
@@ -279,40 +272,38 @@ export default async function CategoryPage({
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className='mt-12 flex justify-center'>
+                <div className='mt-10 flex justify-center'>
                   <nav className='flex items-center gap-2'>
                     {currentPage > 1 && (
                       <a
                         href={`/category/${slug}?page=${currentPage - 1}`}
-                        className='px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors'>
-                        Previous
+                        className='rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary transition-colors'>
+                        ← Previous
                       </a>
                     )}
-
-                    <span className='px-4 py-2 text-sm text-slate-600 dark:text-slate-400'>
-                      Page {currentPage} of {totalPages}
+                    <span className='px-4 py-2 text-sm text-muted-foreground'>
+                      {currentPage} / {totalPages}
                     </span>
-
                     {currentPage < totalPages && (
                       <a
                         href={`/category/${slug}?page=${currentPage + 1}`}
-                        className='px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors'>
-                        Next
+                        className='rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary transition-colors'>
+                        Next →
                       </a>
                     )}
                   </nav>
                 </div>
               )}
 
-              {/* Multiplex Ad after the grid */}
-              <div className='mt-16 pt-8'>
-                <MultiplexAd containerClassName='' />
+              {/* Ad after grid */}
+              <div className='mt-14 ad-slot min-h-[200px] flex items-center justify-center'>
+                <MultiplexAd containerClassName='w-full' />
               </div>
             </>
           ) : (
-            <div className='text-center py-16 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800'>
-              <p className='text-slate-500 dark:text-slate-400'>
-                No articles found in this category. Check back soon!
+            <div className='rounded-2xl border border-dashed border-border bg-muted/20 py-20 text-center'>
+              <p className='text-muted-foreground text-sm'>
+                No guides found in this topic. Check back soon!
               </p>
             </div>
           )}

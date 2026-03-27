@@ -6,7 +6,24 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { taxonomyApi, NavigationCategory } from '@/lib/api/taxonomy';
 import { newsletterApi } from '@/lib/api/newsletter';
-import { CheckCircle2, Loader2 } from 'lucide-react';
+import {
+  BookOpen,
+  CheckCircle2,
+  Loader2,
+  Code2,
+  Brain,
+  Shield,
+  TrendingUp,
+  Layers,
+} from 'lucide-react';
+
+const QUICK_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'All Guides', href: '/blog' },
+  { label: 'Topics', href: '/category' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Privacy Policy', href: '/privacy' },
+];
 
 export function Footer() {
   const [categories, setCategories] = useState<NavigationCategory[]>([]);
@@ -61,89 +78,103 @@ export function Footer() {
   };
 
   return (
-    <footer className='bg-muted/30 border-t border-border'>
-      <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
+    <footer className='bg-foreground text-background'>
+      {/* Main footer content */}
+      <div className='mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8'>
         <div className='grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4'>
-          {/* About */}
-          <div>
-            <h3 className='text-base font-bold text-foreground mb-4'>
-              About
-            </h3>
-            <p className='text-sm text-muted-foreground leading-relaxed'>
-              We publish step-by-step guides, tutorials, and in-depth articles
-              on software development, AI, cybersecurity, personal finance,
-              and productivity. Every article is designed to help you build
-              real skills.
+
+          {/* Brand column */}
+          <div className='lg:col-span-1'>
+            <Link href='/' className='inline-flex items-center gap-2.5 mb-5'>
+              <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm'>
+                <BookOpen className='h-5 w-5' />
+              </div>
+              <span className='text-lg font-bold text-background tracking-tight'>
+                GuideStack
+              </span>
+            </Link>
+            <p className='text-sm leading-relaxed text-background/65 mb-6'>
+              A free knowledge platform publishing practical, step-by-step guides
+              on software development, AI, cybersecurity, personal finance, and
+              productivity. Every guide is written to build real skills.
             </p>
+            {/* Trust signals */}
+            <div className='flex flex-wrap gap-3'>
+              {[
+                { icon: Code2, label: 'Dev' },
+                { icon: Brain, label: 'AI' },
+                { icon: Shield, label: 'Security' },
+                { icon: TrendingUp, label: 'Finance' },
+              ].map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className='flex items-center gap-1.5 rounded-full border border-background/15 bg-background/8 px-3 py-1 text-xs text-background/60'>
+                  <Icon className='h-3 w-3' />
+                  {label}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick links */}
           <div>
-            <h3 className='text-base font-bold text-foreground mb-4'>
-              Quick Links
+            <h3 className='mb-5 text-xs font-bold uppercase tracking-widest text-background/50'>
+              Navigation
             </h3>
-            <nav className='space-y-2.5'>
-              <Link
-                href='/'
-                className='block text-sm text-muted-foreground hover:text-foreground transition'>
-                Home
-              </Link>
-              <Link
-                href='/blog'
-                className='block text-sm text-muted-foreground hover:text-foreground transition'>
-                All Guides
-              </Link>
-              <Link
-                href='/privacy'
-                className='block text-sm text-muted-foreground hover:text-foreground transition'>
-                Privacy Policy
-              </Link>
-              <Link
-                href='/contact'
-                className='block text-sm text-muted-foreground hover:text-foreground transition'>
-                Contact
-              </Link>
+            <nav className='space-y-3'>
+              {QUICK_LINKS.map(({ label, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className='block text-sm text-background/65 hover:text-background transition-colors duration-150'>
+                  {label}
+                </Link>
+              ))}
             </nav>
           </div>
 
-          {/* Categories */}
+          {/* Topics */}
           <div>
-            <h3 className='text-base font-bold text-foreground mb-4'>
+            <h3 className='mb-5 text-xs font-bold uppercase tracking-widest text-background/50'>
               Topics
             </h3>
-            <nav className='space-y-2.5'>
+            <nav className='space-y-3'>
               {categories.length > 0 ? (
-                categories.slice(0, 6).map((category) => (
+                categories.slice(0, 7).map((category) => (
                   <Link
                     key={category.id}
                     href={`/category/${category.slug}`}
-                    className='block text-sm text-muted-foreground hover:text-foreground transition'>
+                    className='flex items-center gap-2 text-sm text-background/65 hover:text-background transition-colors duration-150 group'>
+                    <Layers className='h-3.5 w-3.5 text-background/30 group-hover:text-background/60 transition-colors' />
                     {category.name}
                   </Link>
                 ))
               ) : (
-                <p className='text-sm text-muted-foreground'>
-                  No categories yet
-                </p>
+                <p className='text-sm text-background/40'>Loading topics...</p>
+              )}
+              {categories.length > 7 && (
+                <Link
+                  href='/category'
+                  className='text-xs font-semibold text-primary hover:underline'>
+                  View all topics →
+                </Link>
               )}
             </nav>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className='text-base font-bold text-foreground mb-4'>
-              Stay Updated
+            <h3 className='mb-5 text-xs font-bold uppercase tracking-widest text-background/50'>
+              Weekly Digest
             </h3>
-            <p className='text-sm text-muted-foreground mb-4'>
-              Get new guides delivered to your inbox. No spam.
+            <p className='text-sm text-background/65 mb-4 leading-relaxed'>
+              Get curated guides and tutorials delivered weekly. No spam.
             </p>
-            <form
-              onSubmit={handleSubscribe}
-              className='flex flex-col gap-2.5'>
+            <form onSubmit={handleSubscribe} className='space-y-2.5'>
               <Input
                 type='email'
-                placeholder='you@example.com'
-                className='text-sm'
+                placeholder='your@email.com'
+                className='bg-background/10 border-background/15 text-background placeholder:text-background/35 focus-visible:border-primary focus-visible:ring-0 text-sm'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading || subscribeStatus === 'success'}
@@ -151,7 +182,7 @@ export function Footer() {
               />
               <Button
                 type='submit'
-                className='w-full'
+                className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm'
                 disabled={isLoading || subscribeStatus === 'success'}>
                 {isLoading ? (
                   <>
@@ -164,12 +195,16 @@ export function Footer() {
                     Subscribed!
                   </>
                 ) : (
-                  'Subscribe'
+                  'Subscribe Free'
                 )}
               </Button>
               {statusMessage && (
                 <p
-                  className={`text-xs ${subscribeStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                  className={`text-xs ${
+                    subscribeStatus === 'success'
+                      ? 'text-green-400'
+                      : 'text-red-400'
+                  }`}>
                   {statusMessage}
                 </p>
               )}
@@ -178,22 +213,18 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom */}
-      <div className='border-t border-border'>
-        <div className='mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8'>
+      {/* Bottom bar */}
+      <div className='border-t border-background/10'>
+        <div className='mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8'>
           <div className='flex flex-col items-center justify-between gap-3 sm:flex-row'>
-            <p className='text-xs text-muted-foreground'>
-              &copy; {new Date().getFullYear()} All rights reserved.
+            <p className='text-xs text-background/40'>
+              &copy; {new Date().getFullYear()} GuideStack. All rights reserved.
             </p>
-            <div className='flex gap-5 text-xs text-muted-foreground'>
-              <Link
-                href='/privacy'
-                className='hover:text-foreground transition'>
-                Privacy
+            <div className='flex gap-5 text-xs text-background/40'>
+              <Link href='/privacy' className='hover:text-background/70 transition-colors'>
+                Privacy Policy
               </Link>
-              <Link
-                href='/contact'
-                className='hover:text-foreground transition'>
+              <Link href='/contact' className='hover:text-background/70 transition-colors'>
                 Contact
               </Link>
             </div>
