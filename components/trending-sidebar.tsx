@@ -146,9 +146,17 @@ export function TrendingSidebar({
               Tags
             </h2>
           </div>
+          <div>
+            <Link
+              href='/tag'
+              className='text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1 mb-4'>
+              <span>See All </span>
+              <MoveRight className='h-3.5 w-3.5' />
+            </Link>
+          </div>
           <div className='flex flex-wrap gap-2'>
-            {tags.map((t) => (
-              <Link
+            {tags.map((t,i) => (
+            i<10&&  <Link
                 key={t.id}
                 href={`/tag/${t.slug}`}
                 className='inline-flex items-center rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary/40 hover:bg-primary/8 hover:text-primary transition-colors'>

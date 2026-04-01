@@ -296,7 +296,7 @@ export function HomeArticlesSection({
                 />
 
                 {/* Ad slot */}
-                <div className='ad-slot min-h-[250px] flex items-center justify-center'>
+                <div className='ad-slot min-h-62.5 flex items-center justify-center'>
                   <p className='text-xs text-muted-foreground/50'>
                     Your ad here
                   </p>
