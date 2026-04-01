@@ -13,6 +13,8 @@ const _geist = Geist({ subsets: ['latin'] });
 const _geistMono = Geist_Mono({ subsets: ['latin'] });
 
 const siteUrl = getBaseUrl();
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingSiteVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -73,12 +75,18 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   verification: {
-    google: 'googlee5a6779efc4b2448',
+    google: googleSiteVerification || 'googlee5a6779efc4b2448',
+    ...(bingSiteVerification
+      ? {
+          other: {
+            'msvalidate.01': bingSiteVerification,
+          },
+        }
+      : {}),
   },
   // Ads disabled — uncomment when re-enabling monetization
   // other: {
   //   'google-adsense-account': 'ca-pub-5060645674260174',
-  //   'msvalidate.01': '',
   // },
 };
 

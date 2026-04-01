@@ -3,9 +3,8 @@
 import React from 'react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Search, BookOpen, X, Menu } from 'lucide-react';
+import { ChevronDown, BookOpen, X, Menu } from 'lucide-react';
 import { NavigationCategory, taxonomyApi } from '@/lib/api/taxonomy';
-import { SearchModal } from './search-modal';
 
 interface MegaMenuProps {
   logo: string;
@@ -15,22 +14,10 @@ interface MegaMenuProps {
 export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [expandedMobileItems, setExpandedMobileItems] = useState<Set<string>>(
     new Set(),
   );
   const [isTopBarVisible, setIsTopBarVisible] = useState(true);
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setIsSearchOpen((prev) => !prev);
-      }
-    };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
-  }, []);
 
   const [categories, setCategories] = useState<NavigationCategory[]>([]);
   const [dropdownPosition, setDropdownPosition] = useState<
@@ -128,11 +115,8 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
 
       {/* Main navigation */}
       <div className='border-b border-border'>
-        <nav
-          ref={menuRef}
-          className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <nav ref={menuRef} className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
           <div className='flex h-16 items-center justify-between gap-4'>
-
             {/* Logo */}
             <Link
               href='/'
@@ -195,7 +179,8 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
                                   </h3>
                                   {item.blogs && item.blogs.length > 0 && (
                                     <p className='text-xs text-muted-foreground mt-0.5'>
-                                      {item.blogs.length} guide{item.blogs.length !== 1 ? 's' : ''}
+                                      {item.blogs.length} guide
+                                      {item.blogs.length !== 1 ? 's' : ''}
                                     </p>
                                   )}
                                 </div>
@@ -209,15 +194,19 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
                             )}
                             {item.blogs && item.blogs.length > 0 && (
                               <div className='mt-1 space-y-0.5 px-3'>
-                                {item.blogs.slice(0, 4).map((subItem, subIdx) => (
-                                  <Link
-                                    key={subIdx}
-                                    href={`/blog/${subItem.slug}`}
-                                    className='flex items-start gap-1.5 rounded py-1 text-xs text-muted-foreground hover:text-primary transition-colors group/sub'>
-                                    <span className='mt-1.5 h-1 w-1 shrink-0 rounded-full bg-border group-hover/sub:bg-primary transition-colors' />
-                                    <span className='line-clamp-1'>{subItem.name}</span>
-                                  </Link>
-                                ))}
+                                {item.blogs
+                                  .slice(0, 4)
+                                  .map((subItem, subIdx) => (
+                                    <Link
+                                      key={subIdx}
+                                      href={`/blog/${subItem.slug}`}
+                                      className='flex items-start gap-1.5 rounded py-1 text-xs text-muted-foreground hover:text-primary transition-colors group/sub'>
+                                      <span className='mt-1.5 h-1 w-1 shrink-0 rounded-full bg-border group-hover/sub:bg-primary transition-colors' />
+                                      <span className='line-clamp-1'>
+                                        {subItem.name}
+                                      </span>
+                                    </Link>
+                                  ))}
                                 {item.blogs.length > 4 && (
                                   <Link
                                     href={`/category/${item.slug}`}
@@ -238,31 +227,15 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
 
             {/* Right actions */}
             <div className='hidden md:flex shrink-0 items-center gap-2'>
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                aria-label='Search guides and topics'
-                className='flex items-center gap-2 rounded-lg border border-border bg-secondary/50 px-3 py-2 text-sm text-muted-foreground hover:border-primary/40 hover:bg-secondary transition-all duration-150'>
-                <Search className='h-4 w-4' />
-                <span className='hidden xl:inline text-xs'>Search...</span>
-                <kbd className='hidden xl:inline-flex items-center gap-0.5 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground'>
-                  ⌘K
-                </kbd>
-              </button>
-              <Link href='/blog'>
+              {/* <Link href='/blog'>
                 <button className='rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity shadow-sm'>
                   Browse Topics
                 </button>
-              </Link>
+              </Link> */}
             </div>
 
             {/* Mobile actions */}
             <div className='lg:hidden flex items-center gap-2'>
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                aria-label='Search'
-                className='rounded-lg p-2 hover:bg-secondary transition-colors'>
-                <Search className='h-5 w-5 text-foreground' />
-              </button>
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
                 aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
@@ -368,12 +341,6 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
           </div>
         </div>
       )}
-
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        categories={categories}
-      />
     </header>
   );
 }

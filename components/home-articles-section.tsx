@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArticleCard } from './article-card';
 import { TrendingSidebar } from './trending-sidebar';
 import { Pagination } from './pagination';
 import { Search, BookOpen, Users, Layers } from 'lucide-react';
+import { SearchModal } from '@/common/search-modal';
+import { NavigationCategory, taxonomyApi } from '@/lib/api/taxonomy';
 
 interface Post {
   id: number;
@@ -53,6 +55,32 @@ export function HomeArticlesSection({
 }: HomeArticlesSectionProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [navigationCategories, setNavigationCategories] = useState<
+    NavigationCategory[]
+  >([]);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    const response = await taxonomyApi.navigation.getCategories();
+    if (response.data) {
+      setNavigationCategories(response.data);
+    }
+  };
 
   const totalGuides = posts.length;
   const totalTopics = categories.length;
@@ -115,8 +143,7 @@ export function HomeArticlesSection({
 
             {/* Headline */}
             <h1 className='text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1] mb-5'>
-              Learn Anything,{' '}
-              <span className='text-primary'>Step by Step</span>
+              Learn Anything, <span className='text-primary'>Step by Step</span>
             </h1>
 
             <p className='text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl mx-auto'>
@@ -125,25 +152,24 @@ export function HomeArticlesSection({
             </p>
 
             {/* Search bar */}
-            <form
-              onSubmit={handleSearchSubmit}
-              className='relative max-w-xl mx-auto mb-10'>
-              <div className='flex items-center gap-3 rounded-xl border-2 border-border bg-card px-4 py-3 shadow-md focus-within:border-primary transition-colors duration-200'>
+            <div className='relative max-w-xl mx-auto mb-10'>
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className='w-full flex items-center gap-3 rounded-xl border-2 border-border bg-card px-4 py-3 shadow-md hover:border-primary transition-colors duration-200 text-left'>
                 <Search className='h-5 w-5 text-muted-foreground shrink-0' />
                 <input
                   type='text'
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder='Search guides, topics, tutorials...'
-                  className='flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none'
+                  className='flex-1 bg-transparent text-sm text-muted-foreground outline-none pointer-events-none'
+                  readOnly
                 />
                 <div className='hidden sm:flex items-center gap-1 shrink-0'>
                   <kbd className='inline-flex items-center rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground'>
                     ⌘K
                   </kbd>
                 </div>
-              </div>
-            </form>
+              </button>
+            </div>
 
             {/* Stats row */}
             <div className='flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground'>
@@ -185,10 +211,15 @@ export function HomeArticlesSection({
         </div>
       </section>
 
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        categories={navigationCategories}
+      />
+
       {/* ─── Latest Guides + Sidebar ─── */}
       <section className='py-14 bg-background' id='latest-guides'>
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-
           {/* Section header */}
           <div className='flex items-end justify-between mb-8'>
             <div>
