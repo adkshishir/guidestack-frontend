@@ -10,13 +10,14 @@ import {
   Clock,
   Share2,
   BookOpen,
-  Image as ImageIcon,
   Eye,
-  Heart,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TableOfContents } from '@/components/table-of-contents';
 import { blogApi } from '@/lib/api/blog';
+import { trackEvent } from '@/lib/analytics';
 
 interface BlogPostDetailProps {
   post: {
@@ -61,17 +62,30 @@ function categoryToSlug(category: string): string {
 }
 
 export function BlogPostDetail({ post }: BlogPostDetailProps) {
-  const [likes, setLikes] = useState(post.analytics?.likes || 0);
-  const [isLiked, setIsLiked] = useState(false);
+  const [helpfulVote, setHelpfulVote] = useState<'yes' | 'no' | null>(null);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
-  const handleLike = async () => {
-    if (isLiked) return;
+  const handleHelpfulVote = async (vote: 'yes' | 'no') => {
+    if (helpfulVote || isSubmittingFeedback) return;
+    setIsSubmittingFeedback(true);
     try {
-      await blogApi.incrementLike(post.id);
-      setLikes(likes + 1);
-      setIsLiked(true);
+      if (vote === 'yes') {
+        await blogApi.incrementLike(post.id);
+      }
+
+      trackEvent('article_feedback_submitted', {
+        article_id: post.id,
+        article_slug: post.slug,
+        article_title: post.title,
+        feedback: vote,
+        helpful: vote === 'yes',
+      });
+
+      setHelpfulVote(vote);
     } catch (err) {
-      console.error('Failed to like post:', err);
+      console.error('Failed to submit article feedback:', err);
+    } finally {
+      setIsSubmittingFeedback(false);
     }
   };
 
@@ -159,17 +173,6 @@ export function BlogPostDetail({ post }: BlogPostDetailProps) {
             </div>
           </div>
           <div className='flex items-center gap-2'>
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={handleLike}
-              className={`gap-1.5 text-xs h-8 ${isLiked ? 'text-red-500 border-red-200 bg-red-50' : ''}`}
-              disabled={isLiked}>
-              <Heart
-                className={`h-3.5 w-3.5 ${isLiked ? 'fill-current' : ''}`}
-              />
-              {likes}
-            </Button>
             <Button
               variant='outline'
               size='sm'
@@ -269,6 +272,44 @@ export function BlogPostDetail({ post }: BlogPostDetailProps) {
           </div>
         </div>
       )}
+
+      <section className='mt-10 rounded-xl border border-border bg-muted/30 p-5 sm:p-6'>
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+          <div>
+            <h3 className='text-base font-semibold text-foreground'>
+              Was this article helpful?
+            </h3>
+            <p className='text-sm text-muted-foreground'>
+              Your feedback helps us improve future guides.
+            </p>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Button
+              variant={helpfulVote === 'yes' ? 'default' : 'outline'}
+              size='sm'
+              onClick={() => handleHelpfulVote('yes')}
+              disabled={Boolean(helpfulVote) || isSubmittingFeedback}
+              className='gap-1.5'>
+              <ThumbsUp className='h-4 w-4' />
+              Yes
+            </Button>
+            <Button
+              variant={helpfulVote === 'no' ? 'default' : 'outline'}
+              size='sm'
+              onClick={() => handleHelpfulVote('no')}
+              disabled={Boolean(helpfulVote) || isSubmittingFeedback}
+              className='gap-1.5'>
+              <ThumbsDown className='h-4 w-4' />
+              No
+            </Button>
+          </div>
+        </div>
+        {helpfulVote && (
+          <p className='mt-3 text-sm text-muted-foreground'>
+            Thanks for your feedback.
+          </p>
+        )}
+      </section>
 
       {/* Author Bio */}
       <div className='mt-12 rounded-xl border border-border bg-muted/30 p-6 sm:p-8'>
