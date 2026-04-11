@@ -36,8 +36,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/projects/ai-blog/frontend
+            cd /home/ubuntu/projects/guide-stack/frontend
             git pull origin main
             npm ci --legacy-peer-deps
             npm run build
-            pm2 restart ai-blog
+            pm2 restart guidestack
