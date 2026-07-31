@@ -20,25 +20,25 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'All Topics - GuideStack',
+  title: 'All Topics - WealthAlgor',
   description:
-    'Browse all topic areas on GuideStack. Explore curated guides covering software development, AI, cybersecurity, personal finance, and productivity.',
+    'Browse all topic areas on WealthAlgor. Explore robo-advisor comparisons, automated investing mechanics, alternatives to pure robo-advisors, and automated money habits.',
   alternates: {
     canonical: '/category',
   },
   openGraph: {
-    title: 'All Topics - GuideStack',
+    title: 'All Topics - WealthAlgor',
     description:
-      'Browse all topic areas on GuideStack. Practical guides on tech, finance, and more.',
+      'Browse all topic areas on WealthAlgor. Practical guides on tech, finance, and more.',
     url: '/category',
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'All Topics - GuideStack',
-    description: 'Browse all topics on GuideStack.',
+    title: 'All Topics - WealthAlgor',
+    description: 'Browse all topics on WealthAlgor.',
   },
   robots: {
     index: true,
@@ -61,7 +61,7 @@ function generateCategoriesSchema(
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'All Topics',
-    description: 'Browse all topics on GuideStack',
+    description: 'Browse all topics on WealthAlgor',
     url: `${siteUrl}/category`,
     mainEntity: {
       '@type': 'ItemList',
@@ -73,7 +73,7 @@ function generateCategoriesSchema(
         name: category.name,
       })),
     },
-    isPartOf: { '@type': 'WebSite', name: 'GuideStack', url: siteUrl },
+    isPartOf: { '@type': 'WebSite', name: 'WealthAlgor', url: siteUrl },
   };
 }
 

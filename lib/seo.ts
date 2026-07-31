@@ -4,7 +4,7 @@
  */
 
 // Update this when you have your new domain
-const DEFAULT_SITE_URL = 'https://guidestack.dev';
+const DEFAULT_SITE_URL = 'https://wealthalgor.com';
 
 /**
  * Returns the site base URL with protocol forced to HTTPS.

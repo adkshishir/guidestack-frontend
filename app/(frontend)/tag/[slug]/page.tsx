@@ -31,30 +31,30 @@ export async function generateMetadata({
   const tagUrl = `${siteUrl}/tag/${slug}`;
 
   return {
-    title: `#${tag.name} - GuideStack`,
+    title: `#${tag.name} - WealthAlgor`,
     description:
       tag.description ||
-      `Browse all articles tagged with #${tag.name} on GuideStack.`,
+      `Browse all articles tagged with #${tag.name} on WealthAlgor.`,
     metadataBase: new URL(siteUrl),
     alternates: {
       canonical: tagUrl,
     },
     openGraph: {
-      title: `#${tag.name} - GuideStack`,
+      title: `#${tag.name} - WealthAlgor`,
       description:
         tag.description ||
-        `Browse all articles tagged with #${tag.name} on GuideStack.`,
+        `Browse all articles tagged with #${tag.name} on WealthAlgor.`,
       url: tagUrl,
-      siteName: 'GuideStack',
+      siteName: 'WealthAlgor',
       locale: 'en_US',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `#${tag.name} - GuideStack`,
+      title: `#${tag.name} - WealthAlgor`,
       description:
         tag.description ||
-        `Browse all articles tagged with #${tag.name} on GuideStack.`,
+        `Browse all articles tagged with #${tag.name} on WealthAlgor.`,
     },
     robots: {
       index: true,
@@ -96,7 +96,7 @@ function generateTagSchema(
     },
     isPartOf: {
       '@type': 'WebSite',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
       url: siteUrl,
     },
   };

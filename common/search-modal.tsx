@@ -211,7 +211,7 @@ export function SearchModal({ isOpen, onClose, categories }: SearchModalProps) {
               to select
             </span>
           </div>
-          <p>Powered by GuideStack AI</p>
+          <p>Powered by WealthAlgor AI</p>
         </div>
       </DialogContent>
     </Dialog>

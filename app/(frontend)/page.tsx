@@ -7,22 +7,22 @@ import { transformBlogPostForDisplay } from '@/lib/blog-utils';
 import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
+  title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
   description:
-    'Actionable step-by-step guides for software development, AI, cybersecurity, personal finance, and productivity. Learn by doing with practical tutorials.',
+    'Independent robo-advisor comparisons, the mechanics behind automated investing, and free calculators for fees, tax-loss harvesting, and rebalancing.',
   keywords: [
-    'step-by-step tutorials',
-    'software development guides',
-    'how to code',
-    'AI tutorials',
-    'cybersecurity guides',
-    'personal finance tips',
-    'developer tools',
-    'programming tutorials',
+    'robo advisor',
+    'robo advisor comparison',
+    'automated investing',
+    'tax loss harvesting calculator',
+    'robo advisor fees',
+    'betterment vs wealthfront',
+    'best robo advisor',
+    'hybrid robo advisor',
   ],
-  authors: [{ name: 'GuideStack Team' }],
-  creator: 'GuideStack',
-  publisher: 'GuideStack',
+  authors: [{ name: 'WealthAlgor Team' }],
+  creator: 'WealthAlgor',
+  publisher: 'WealthAlgor',
   formatDetection: {
     email: false,
     address: false,
@@ -33,19 +33,19 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
+    title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
-      'Actionable step-by-step guides for developers, creators, and curious minds. Learn by doing.',
+      'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
     url: '/',
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
+    title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
-      'Actionable step-by-step guides for developers, creators, and curious minds.',
+      'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
   },
   robots: {
     index: true,
@@ -67,10 +67,10 @@ function generateStructuredData(posts: any[], postCount: number) {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'GuideStack',
+    name: 'WealthAlgor',
     url: siteUrl,
     description:
-      'Step-by-step technical guides, tutorials, and practical how-to articles',
+      'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -84,7 +84,7 @@ function generateStructuredData(posts: any[], postCount: number) {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'GuideStack',
+    name: 'WealthAlgor',
     url: siteUrl,
     logo: `${siteUrl}/icon.svg`,
     sameAs: [],
@@ -93,13 +93,13 @@ function generateStructuredData(posts: any[], postCount: number) {
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'GuideStack',
+    name: 'WealthAlgor',
     description:
-      'Step-by-step technical guides, tutorials, and practical how-to articles',
+      'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators',
     url: siteUrl,
     publisher: {
       '@type': 'Organization',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
     },
     blogPost: posts.slice(0, 10).map((post) => ({
       '@type': 'BlogPosting',
@@ -113,7 +113,7 @@ function generateStructuredData(posts: any[], postCount: number) {
       },
       publisher: {
         '@type': 'Organization',
-        name: 'GuideStack',
+        name: 'WealthAlgor',
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
@@ -125,8 +125,8 @@ function generateStructuredData(posts: any[], postCount: number) {
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'GuideStack Home',
-    description: 'Latest step-by-step guides and tutorials from GuideStack',
+    name: 'WealthAlgor Home',
+    description: 'Latest robo-advisor comparisons, guides, and calculators from WealthAlgor',
     url: siteUrl,
     mainEntity: {
       '@type': 'ItemList',

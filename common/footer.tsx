@@ -10,10 +10,10 @@ import {
   BookOpen,
   CheckCircle2,
   Loader2,
-  Code2,
-  Brain,
-  Shield,
-  TrendingUp,
+  Scale,
+  Calculator,
+  Shuffle,
+  PiggyBank,
   Layers,
 } from 'lucide-react';
 
@@ -90,21 +90,22 @@ export function Footer() {
                 <BookOpen className='h-5 w-5' />
               </div>
               <span className='text-lg font-bold text-background tracking-tight'>
-                GuideStack
+                WealthAlgor
               </span>
             </Link>
             <p className='text-sm leading-relaxed text-background/65 mb-6'>
-              A free knowledge platform publishing practical, step-by-step guides
-              on software development, AI, cybersecurity, personal finance, and
-              productivity. Every guide is written to build real skills.
+              Independent research on robo-advisors and automated investing —
+              honest comparisons, the mechanics behind the algorithms, and
+              calculators that use your own numbers instead of a sample
+              portfolio. Not financial advice.
             </p>
             {/* Trust signals */}
             <div className='flex flex-wrap gap-3'>
               {[
-                { icon: Code2, label: 'Dev' },
-                { icon: Brain, label: 'AI' },
-                { icon: Shield, label: 'Security' },
-                { icon: TrendingUp, label: 'Finance' },
+                { icon: Scale, label: 'Comparisons' },
+                { icon: Calculator, label: 'Mechanics' },
+                { icon: Shuffle, label: 'Alternatives' },
+                { icon: PiggyBank, label: 'Money Habits' },
               ].map(({ icon: Icon, label }) => (
                 <div
                   key={label}
@@ -218,7 +219,7 @@ export function Footer() {
         <div className='mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8'>
           <div className='flex flex-col items-center justify-between gap-3 sm:flex-row'>
             <p className='text-xs text-background/40'>
-              &copy; {new Date().getFullYear()} GuideStack. All rights reserved.
+              &copy; {new Date().getFullYear()} WealthAlgor. All rights reserved.
             </p>
             <div className='flex gap-5 text-xs text-background/40'>
               <Link href='/privacy' className='hover:text-background/70 transition-colors'>
