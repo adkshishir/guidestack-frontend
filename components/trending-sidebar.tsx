@@ -64,7 +64,7 @@ export function TrendingSidebar({
           <Link
             href='/blog?sort=views-desc'
             className='text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1'>
-            <span>See all</span>
+            <span>See all guides</span>
             <MoveRight className='h-3.5 w-3.5' />
           </Link>
         </div>
@@ -124,13 +124,14 @@ export function TrendingSidebar({
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3.5 h-3.5 rounded-full transition-all border-2 border-transparent hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 ${
-                    index === currentSlide
-                      ? 'bg-white'
-                      : 'bg-white/40 hover:bg-white/60'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
+                  className='flex h-6 w-6 items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full'
+                  aria-label={`Go to slide ${index + 1}`}>
+                  <span
+                    className={`h-3.5 w-3.5 rounded-full transition-all border-2 border-transparent hover:border-white/50 ${
+                      index === currentSlide ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
           )}
@@ -150,7 +151,7 @@ export function TrendingSidebar({
             <Link
               href='/tag'
               className='text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1 mb-4'>
-              <span>See All </span>
+              <span>See all tags</span>
               <MoveRight className='h-3.5 w-3.5' />
             </Link>
           </div>

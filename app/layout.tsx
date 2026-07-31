@@ -2,7 +2,6 @@ import type React from 'react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
-import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from 'sonner';
 // Ads disabled — uncomment to re-enable
 // import { GoogleAdSense } from '@/components/adsense';
@@ -178,7 +177,6 @@ export default function RootLayout({
 
         {/* Google AdSense - loaded after page is interactive for better Core Web Vitals */}
 
-        <Analytics />
         <Toaster />
       </body>
     </html>

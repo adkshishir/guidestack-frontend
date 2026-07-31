@@ -151,7 +151,7 @@ export function Footer() {
                   </Link>
                 ))
               ) : (
-                <p className='text-sm text-background/40'>Loading topics...</p>
+                <p className='text-sm text-background/70'>Loading topics...</p>
               )}
               {categories.length > 7 && (
                 <Link
@@ -218,14 +218,14 @@ export function Footer() {
       <div className='border-t border-background/10'>
         <div className='mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8'>
           <div className='flex flex-col items-center justify-between gap-3 sm:flex-row'>
-            <p className='text-xs text-background/40'>
+            <p className='text-xs text-background/70'>
               &copy; {new Date().getFullYear()} WealthAlgor. All rights reserved.
             </p>
-            <div className='flex gap-5 text-xs text-background/40'>
-              <Link href='/privacy' className='hover:text-background/70 transition-colors'>
+            <div className='flex gap-5 text-xs text-background/70'>
+              <Link href='/privacy' className='hover:text-background transition-colors'>
                 Privacy Policy
               </Link>
-              <Link href='/contact' className='hover:text-background/70 transition-colors'>
+              <Link href='/contact' className='hover:text-background transition-colors'>
                 Contact
               </Link>
             </div>

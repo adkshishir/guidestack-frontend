@@ -120,6 +120,7 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
             {/* Logo */}
             <Link
               href='/'
+              aria-label={`${companyName} home`}
               className='flex shrink-0 items-center gap-2.5 font-bold text-lg'>
               <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm'>
                 <BookOpen className='h-5 w-5' />
