@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     cssChunking: 'strict',
   },
   images: {
+    formats: ['image/avif', 'image/webp'],
+    qualities: [70, 75],
     remotePatterns: [
       {
         protocol: 'http',
