@@ -274,7 +274,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         />
 
         <div className='mx-auto max-w-7xl lg:p-6'>
-          <BlogPostLayout>
+          <BlogPostLayout categorySlug={post.blogCategories?.[0]?.category?.slug}>
             <div className='bg-card rounded-xl border border-border shadow-sm py-4'>
               <ViewTracker postId={post.id} />
               <BlogPostDetail post={transformedPost} />

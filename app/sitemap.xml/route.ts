@@ -1,5 +1,6 @@
 import { serverApi } from '@/lib/api/server';
 import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
+import { TOOLS } from '@/lib/tools-data';
 
 type SitemapImage = {
   loc: string;
@@ -27,6 +28,12 @@ const baseUrl = getNormalizedBaseUrl();
 const staticPaths = [
   { path: '', changeFrequency: 'daily' as const, priority: '1.0' },
   { path: '/blog', changeFrequency: 'daily' as const, priority: '0.9' },
+  { path: '/tools', changeFrequency: 'monthly' as const, priority: '0.9' },
+  ...TOOLS.map((tool) => ({
+    path: `/tools/${tool.slug}`,
+    changeFrequency: 'monthly' as const,
+    priority: '0.8',
+  })),
   { path: '/category', changeFrequency: 'weekly' as const, priority: '0.8' },
   { path: '/tag', changeFrequency: 'weekly' as const, priority: '0.8' },
   { path: '/contact', changeFrequency: 'monthly' as const, priority: '0.6' },

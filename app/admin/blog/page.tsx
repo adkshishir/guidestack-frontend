@@ -7,14 +7,32 @@ import { ProtectedRoute } from '@/components/admin/protected-route';
 import { DataTable, Column, StatusBadge } from '@/components/admin/data-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { blogApi, BlogPost } from '@/lib/api/blog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { blogApi, BlogPost, BlogPostStatus } from '@/lib/api/blog';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
+
+const STATUS_FILTERS: { value: BlogPostStatus | 'ALL'; label: string }[] = [
+  { value: 'ALL', label: 'All statuses' },
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'REVIEW', label: 'Pending Review' },
+  { value: 'PUBLISHED', label: 'Published' },
+  { value: 'ARCHIVED', label: 'Archived' },
+];
 
 export default function BlogPage() {
   const router = useRouter();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState<BlogPostStatus | 'ALL'>(
+    'ALL',
+  );
 
   const loadPosts = async () => {
     setLoading(true);
@@ -75,6 +93,11 @@ export default function BlogPage() {
     },
   ];
 
+  const filteredPosts =
+    statusFilter === 'ALL'
+      ? posts
+      : posts.filter((post) => post.status === statusFilter);
+
   return (
     <ProtectedRoute>
       <div className='space-y-6'>
@@ -92,12 +115,29 @@ export default function BlogPage() {
         </div>
 
         <Card>
-          <CardHeader>
+          <CardHeader className='flex flex-row items-center justify-between'>
             <CardTitle>All Posts</CardTitle>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) =>
+                setStatusFilter(value as BlogPostStatus | 'ALL')
+              }
+            >
+              <SelectTrigger className='w-[180px]'>
+                <SelectValue placeholder='Filter by status' />
+              </SelectTrigger>
+              <SelectContent>
+                {STATUS_FILTERS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </CardHeader>
           <CardContent>
             <DataTable
-              data={posts}
+              data={filteredPosts}
               columns={columns}
               onEdit={handleEdit}
               onDelete={handleDelete}
