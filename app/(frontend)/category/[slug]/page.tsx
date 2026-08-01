@@ -43,7 +43,14 @@ export async function generateMetadata({
           alt: category.name,
         },
       ]
-    : undefined;
+    : [
+        {
+          url: `${siteUrl}/logo.png`,
+          width: 1024,
+          height: 1024,
+          alt: 'WealthAlgor',
+        },
+      ];
 
   return {
     title: `${category.name} - WealthAlgor`,

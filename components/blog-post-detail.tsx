@@ -241,7 +241,7 @@ export function BlogPostDetail({ post }: BlogPostDetailProps) {
                   </span>
                 </summary>
                 <div
-                  className='px-4 pb-4 text-muted-foreground leading-relaxed'
+                  className='blog-content px-4 pb-4 text-muted-foreground leading-relaxed'
                   dangerouslySetInnerHTML={{ __html: faq.answer }}
                 />
               </details>

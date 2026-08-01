@@ -4,16 +4,16 @@ import { PageHeader } from '@/components/page-header';
 import { serverApi } from '@/lib/api/server';
 import { getBaseUrl } from '@/lib/seo';
 import {
-  Code2,
-  Brain,
+  Scale,
+  Settings2,
   Shield,
   TrendingUp,
-  Wrench,
-  Globe,
+  Calculator,
+  Landmark,
   Lightbulb,
-  BarChart2,
-  Database,
-  Cpu,
+  Receipt,
+  PiggyBank,
+  Shuffle,
   Layers,
   BookOpen,
   ArrowRight,
@@ -34,11 +34,20 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'All Topics - WealthAlgor',
     description: 'Browse all topics on WealthAlgor.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -77,91 +86,31 @@ function generateCategoriesSchema(
   };
 }
 
+// One consistent card treatment (not a rainbow per category) reads as a
+// research site, not a tutorial index — the icon alone carries the meaning.
 const CATEGORY_STYLES: {
   keywords: string[];
   icon: React.ElementType;
-  color: string;
-  bg: string;
-  border: string;
 }[] = [
+  { keywords: ['compar', 'vs', 'review', 'rank'], icon: Scale },
   {
-    keywords: ['develop', 'code', 'program', 'engineer', 'software', 'frontend', 'backend'],
-    icon: Code2,
-    color: 'text-blue-600 dark:text-blue-400',
-    bg: 'bg-blue-50 dark:bg-blue-950/40',
-    border: 'border-l-blue-500',
+    keywords: ['algorithm', 'mechanic', 'rebalanc', 'tax-loss', 'tax loss', 'how it works'],
+    icon: Settings2,
   },
+  { keywords: ['security', 'privacy', 'safe', 'protect', 'sipc', 'insur'], icon: Shield },
   {
-    keywords: ['ai', 'machine', 'learn', 'ml', 'deep', 'neural', 'llm', 'gpt'],
-    icon: Brain,
-    color: 'text-violet-600 dark:text-violet-400',
-    bg: 'bg-violet-50 dark:bg-violet-950/40',
-    border: 'border-l-violet-500',
-  },
-  {
-    keywords: ['security', 'cyber', 'hack', 'privacy', 'safe', 'protect'],
-    icon: Shield,
-    color: 'text-red-600 dark:text-red-400',
-    bg: 'bg-red-50 dark:bg-red-950/40',
-    border: 'border-l-red-500',
-  },
-  {
-    keywords: ['finance', 'money', 'invest', 'crypto', 'budget', 'wealth', 'stock'],
+    keywords: ['portfolio', 'invest', 'etf', 'stock', 'asset', 'allocation', 'wealth'],
     icon: TrendingUp,
-    color: 'text-green-600 dark:text-green-400',
-    bg: 'bg-green-50 dark:bg-green-950/40',
-    border: 'border-l-green-500',
   },
-  {
-    keywords: ['tool', 'devops', 'infra', 'cloud', 'docker', 'kubernetes', 'deploy'],
-    icon: Wrench,
-    color: 'text-orange-600 dark:text-orange-400',
-    bg: 'bg-orange-50 dark:bg-orange-950/40',
-    border: 'border-l-orange-500',
-  },
-  {
-    keywords: ['data', 'database', 'sql', 'analytics', 'bigdata'],
-    icon: Database,
-    color: 'text-cyan-600 dark:text-cyan-400',
-    bg: 'bg-cyan-50 dark:bg-cyan-950/40',
-    border: 'border-l-cyan-500',
-  },
-  {
-    keywords: ['product', 'design', 'ux', 'ui', 'creative'],
-    icon: Lightbulb,
-    color: 'text-yellow-600 dark:text-yellow-400',
-    bg: 'bg-yellow-50 dark:bg-yellow-950/40',
-    border: 'border-l-yellow-500',
-  },
-  {
-    keywords: ['productivity', 'career', 'growth', 'skill', 'self'],
-    icon: BarChart2,
-    color: 'text-pink-600 dark:text-pink-400',
-    bg: 'bg-pink-50 dark:bg-pink-950/40',
-    border: 'border-l-pink-500',
-  },
-  {
-    keywords: ['web', 'internet', 'network', 'api', 'rest'],
-    icon: Globe,
-    color: 'text-teal-600 dark:text-teal-400',
-    bg: 'bg-teal-50 dark:bg-teal-950/40',
-    border: 'border-l-teal-500',
-  },
-  {
-    keywords: ['hardware', 'embedded', 'iot', 'raspberry', 'arduino'],
-    icon: Cpu,
-    color: 'text-slate-600 dark:text-slate-400',
-    bg: 'bg-slate-50 dark:bg-slate-950/40',
-    border: 'border-l-slate-500',
-  },
+  { keywords: ['calculator', 'tool', 'estimate', 'planner'], icon: Calculator },
+  { keywords: ['retire', '401k', 'ira', 'pension'], icon: Landmark },
+  { keywords: ['beginner', 'basics', 'getting started', 'guide'], icon: Lightbulb },
+  { keywords: ['fee', 'cost', 'pricing', 'price'], icon: Receipt },
+  { keywords: ['budget', 'habit', 'saving', 'save', 'money'], icon: PiggyBank },
+  { keywords: ['alternative', 'diy', 'self-directed', 'hybrid'], icon: Shuffle },
 ];
 
-const DEFAULT_STYLE = {
-  icon: Layers,
-  color: 'text-primary',
-  bg: 'bg-primary/8',
-  border: 'border-l-primary',
-};
+const DEFAULT_STYLE = { icon: Layers };
 
 function getCategoryStyle(name: string) {
   const lower = name.toLowerCase();
@@ -212,8 +161,8 @@ export default async function CategoriesPage() {
                 <Link
                   key={category.id}
                   href={`/category/${category.slug}`}
-                  className={`group flex items-start gap-4 rounded-xl border border-border border-l-4 ${style.border} ${style.bg} p-5 hover:shadow-sm hover:border-primary/30 transition-all duration-200`}>
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-background/70 ${style.color}`}>
+                  className='group flex items-start gap-4 rounded-xl border border-border bg-card p-5 hover:shadow-sm hover:border-primary/40 transition-all duration-200'>
+                  <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary'>
                     <Icon className='h-5 w-5' />
                   </div>
                   <div className='flex-1 min-w-0'>
