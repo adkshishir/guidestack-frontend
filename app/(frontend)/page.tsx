@@ -40,12 +40,21 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
       'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -86,7 +95,7 @@ function generateStructuredData(posts: any[], postCount: number) {
     '@type': 'Organization',
     name: 'WealthAlgor',
     url: siteUrl,
-    logo: `${siteUrl}/icon.svg`,
+    logo: `${siteUrl}/logo.png`,
     sameAs: [],
   };
 

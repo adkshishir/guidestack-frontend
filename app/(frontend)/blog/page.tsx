@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Blog - WealthAlgor',
     description:
       'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,

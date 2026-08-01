@@ -21,12 +21,21 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary',
     title: 'Privacy Policy - WealthAlgor',
     description:
       'Learn about how WealthAlgor collects, uses, and protects your personal data.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,

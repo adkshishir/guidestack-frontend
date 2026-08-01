@@ -48,6 +48,14 @@ export async function generateMetadata({
       siteName: 'WealthAlgor',
       locale: 'en_US',
       type: 'website',
+      images: [
+        {
+          url: '/logo.png',
+          width: 1024,
+          height: 1024,
+          alt: 'WealthAlgor',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
@@ -55,6 +63,7 @@ export async function generateMetadata({
       description:
         tag.description ||
         `Browse all articles tagged with #${tag.name} on WealthAlgor.`,
+      images: ['/logo.png'],
     },
     robots: {
       index: true,

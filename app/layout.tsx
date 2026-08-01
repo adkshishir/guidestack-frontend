@@ -50,12 +50,21 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
       'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
+    images: ['/logo.png'],
   },
   icons: {
     icon: [
@@ -100,9 +109,9 @@ const globalStructuredData = {
     url: siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/icon.svg`,
-      width: 512,
-      height: 512,
+      url: `${siteUrl}/logo.png`,
+      width: 1024,
+      height: 1024,
     },
     description:
       'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators.',

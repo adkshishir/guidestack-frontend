@@ -20,12 +20,21 @@ export const metadata: Metadata = {
     siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary',
     title: 'Contact Us - WealthAlgor',
     description:
       'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
