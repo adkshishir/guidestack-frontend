@@ -7,6 +7,7 @@ import { TrendingSidebar } from './trending-sidebar';
 import { Pagination } from './pagination';
 import { Search, BookOpen, Users, Layers } from 'lucide-react';
 import { SearchModal } from '@/common/search-modal';
+import { ToolsShowcaseSection } from './tools-showcase-section';
 import { NavigationCategory, taxonomyApi } from '@/lib/api/taxonomy';
 
 interface Post {
@@ -137,18 +138,18 @@ export function HomeArticlesSection({
             <div className='inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-1.5 mb-6'>
               <BookOpen className='h-3.5 w-3.5 text-primary' />
               <span className='text-xs font-semibold uppercase tracking-widest text-primary'>
-                Free Knowledge Platform
+                Independent Robo-Advisor Research
               </span>
             </div>
 
             {/* Headline */}
             <h1 className='text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1] mb-5'>
-              Learn Anything, <span className='text-primary'>Step by Step</span>
+              Automated Investing, <span className='text-primary'>Decoded</span>
             </h1>
 
             <p className='text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl mx-auto'>
-              In-depth guides written for clarity. From software development and
-              AI to personal finance — practical knowledge you can act on today.
+              Honest comparisons, the mechanics behind the algorithms, and
+              calculators that use your own numbers — not a sample portfolio.
             </p>
 
             {/* Search bar */}
@@ -216,6 +217,8 @@ export function HomeArticlesSection({
         onClose={() => setIsSearchOpen(false)}
         categories={navigationCategories}
       />
+
+      <ToolsShowcaseSection />
 
       {/* ─── Latest Guides + Sidebar ─── */}
       <section className='py-14 bg-background' id='latest-guides'>

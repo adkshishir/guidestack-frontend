@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import { taxonomyApi, NavigationCategory } from '@/lib/api/taxonomy';
 import { newsletterApi } from '@/lib/api/newsletter';
 import {
-  BookOpen,
   CheckCircle2,
   Loader2,
   Scale,
@@ -19,6 +19,7 @@ import {
 
 const QUICK_LINKS = [
   { label: 'Home', href: '/' },
+  { label: 'Tools & Calculators', href: '/tools' },
   { label: 'All Guides', href: '/blog' },
   { label: 'Topics', href: '/category' },
   { label: 'Contact', href: '/contact' },
@@ -86,9 +87,13 @@ export function Footer() {
           {/* Brand column */}
           <div className='lg:col-span-1'>
             <Link href='/' className='inline-flex items-center gap-2.5 mb-5'>
-              <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm'>
-                <BookOpen className='h-5 w-5' />
-              </div>
+              <Image
+                src='/logo.png'
+                alt=''
+                width={36}
+                height={36}
+                className='h-9 w-9 rounded-lg'
+              />
               <span className='text-lg font-bold text-background tracking-tight'>
                 WealthAlgor
               </span>
@@ -169,7 +174,8 @@ export function Footer() {
               Weekly Digest
             </h3>
             <p className='text-sm text-background/65 mb-4 leading-relaxed'>
-              Get curated guides and tutorials delivered weekly. No spam.
+              New robo-advisor comparisons and calculator updates delivered
+              weekly. No spam.
             </p>
             <form onSubmit={handleSubscribe} className='space-y-2.5'>
               <Input
