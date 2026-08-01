@@ -124,11 +124,19 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
               aria-label={`${companyName} home`}
               className='flex shrink-0 items-center gap-2.5 font-bold text-lg'>
               <Image
-                src='/logo.png'
+                src='/primary_wealthalgor.png'
                 alt=''
-                width={36}
-                height={36}
-                className='h-9 w-9 rounded-lg'
+                width={223}
+                height={250}
+                className='h-9 w-auto dark:hidden'
+                priority
+              />
+              <Image
+                src='/icon_white_wealthalgor.png'
+                alt=''
+                width={240}
+                height={240}
+                className='hidden h-9 w-auto dark:block'
                 priority
               />
               <span className='hidden sm:inline text-foreground tracking-tight'>

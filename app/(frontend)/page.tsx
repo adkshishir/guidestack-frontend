@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
+        url: '/banner_wealthalgor.png',
+        width: 702,
+        height: 528,
         alt: 'WealthAlgor',
       },
     ],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
       'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
-    images: ['/logo.png'],
+    images: ['/banner_wealthalgor.png'],
   },
   robots: {
     index: true,
@@ -95,7 +95,7 @@ function generateStructuredData(posts: any[], postCount: number) {
     '@type': 'Organization',
     name: 'WealthAlgor',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/banner_wealthalgor.png`,
     sameAs: [],
   };
 

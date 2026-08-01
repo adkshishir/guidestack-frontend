@@ -60,9 +60,9 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
-          url: '/logo.png',
-          width: 1024,
-          height: 1024,
+          url: '/banner_wealthalgor.png',
+          width: 702,
+          height: 528,
           alt: 'WealthAlgor',
         },
       ],
@@ -71,7 +71,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: `${tool.title} - WealthAlgor`,
       description: tool.description,
-      images: ['/logo.png'],
+      images: ['/banner_wealthalgor.png'],
     },
     robots: {
       index: true,

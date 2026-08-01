@@ -52,9 +52,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
+        url: '/banner_wealthalgor.png',
+        width: 702,
+        height: 528,
         alt: 'WealthAlgor',
       },
     ],
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
       'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
-    images: ['/logo.png'],
+    images: ['/banner_wealthalgor.png'],
   },
   icons: {
     icon: [
@@ -75,10 +75,6 @@ export const metadata: Metadata = {
       {
         url: '/icon-dark-32x32.png',
         media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
       },
     ],
     apple: '/apple-icon.png',
@@ -109,9 +105,9 @@ const globalStructuredData = {
     url: siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/logo.png`,
-      width: 1024,
-      height: 1024,
+      url: `${siteUrl}/primary_wealthalgor.png`,
+      width: 223,
+      height: 250,
     },
     description:
       'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators.',

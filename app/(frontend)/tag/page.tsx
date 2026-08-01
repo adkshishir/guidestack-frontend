@@ -23,9 +23,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
+        url: '/banner_wealthalgor.png',
+        width: 702,
+        height: 528,
         alt: 'WealthAlgor',
       },
     ],
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'All Tags - WealthAlgor',
     description:
       'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
-    images: ['/logo.png'],
+    images: ['/banner_wealthalgor.png'],
   },
   robots: {
     index: true,

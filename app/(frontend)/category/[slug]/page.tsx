@@ -45,9 +45,9 @@ export async function generateMetadata({
       ]
     : [
         {
-          url: `${siteUrl}/logo.png`,
-          width: 1024,
-          height: 1024,
+          url: `${siteUrl}/banner_wealthalgor.png`,
+          width: 702,
+          height: 528,
           alt: 'WealthAlgor',
         },
       ];

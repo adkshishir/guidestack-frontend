@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
+        url: '/banner_wealthalgor.png',
+        width: 702,
+        height: 528,
         alt: 'WealthAlgor',
       },
     ],
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Free Robo-Advisor Tools & Calculators - WealthAlgor',
     description:
       'Interactive calculators for automated investing decisions on WealthAlgor.',
-    images: ['/logo.png'],
+    images: ['/banner_wealthalgor.png'],
   },
   robots: {
     index: true,

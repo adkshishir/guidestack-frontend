@@ -32,9 +32,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
+        url: '/banner_wealthalgor.png',
+        width: 702,
+        height: 528,
         alt: 'WealthAlgor',
       },
     ],
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: 'Blog - WealthAlgor',
     description:
       'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
-    images: ['/logo.png'],
+    images: ['/banner_wealthalgor.png'],
   },
   robots: {
     index: true,

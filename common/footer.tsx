@@ -87,12 +87,22 @@ export function Footer() {
           {/* Brand column */}
           <div className='lg:col-span-1'>
             <Link href='/' className='inline-flex items-center gap-2.5 mb-5'>
+              {/* Footer bg inverts relative to page mode, so the logo mapping is
+                  reversed from the header: white mark by default (light-mode's
+                  dark footer), navy mark in dark mode (dark-mode's light footer). */}
               <Image
-                src='/logo.png'
+                src='/icon_white_wealthalgor.png'
                 alt=''
-                width={36}
-                height={36}
-                className='h-9 w-9 rounded-lg'
+                width={240}
+                height={240}
+                className='h-9 w-auto dark:hidden'
+              />
+              <Image
+                src='/primary_wealthalgor.png'
+                alt=''
+                width={223}
+                height={250}
+                className='hidden h-9 w-auto dark:block'
               />
               <span className='text-lg font-bold text-background tracking-tight'>
                 WealthAlgor
