@@ -51,19 +51,16 @@ export function NewsletterSection() {
   return (
     <section className='py-14 bg-background border-t border-border'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='relative overflow-hidden rounded-2xl bg-primary px-8 py-12 md:px-14 md:py-16 shadow-lg'>
-          {/* Subtle decorative pattern */}
+        <div className='relative overflow-hidden rounded-2xl bg-primary px-8 py-12 md:px-14 md:py-16 shadow-lg border-t-2 border-highlight'>
+          {/* Fine grid pattern — precision/data motif, not a marketing gradient */}
           <div
-            className='absolute inset-0 opacity-[0.06]'
+            className='absolute inset-0 opacity-[0.04]'
             style={{
               backgroundImage:
-                'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-              backgroundSize: '28px 28px',
+                'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
             }}
           />
-          {/* Glow blobs */}
-          <div className='absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl pointer-events-none' />
-          <div className='absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-white/10 blur-2xl pointer-events-none' />
 
           <div className='relative max-w-2xl mx-auto text-center'>
             {/* Eyebrow */}
@@ -75,12 +72,12 @@ export function NewsletterSection() {
             </div>
 
             <h2 className='text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight'>
-              Level Up Your Skills Weekly
+              Stay Ahead of Robo-Advisor Changes
             </h2>
             <p className='text-base md:text-lg text-white/75 mb-8 leading-relaxed'>
-              Get curated guides, practical tutorials, and expert insights
-              delivered every week. No noise — only content that makes you
-              better.
+              New comparisons, calculator updates, and plain-English
+              breakdowns of how the algorithms actually work — delivered
+              every week. No noise.
             </p>
 
             <form
