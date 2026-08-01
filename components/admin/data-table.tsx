@@ -130,6 +130,7 @@ export function StatusBadge({ status }: { status: string }) {
     INACTIVE: 'bg-gray-500',
     SUSPENDED: 'bg-red-500',
     DRAFT: 'bg-yellow-500',
+    REVIEW: 'bg-blue-500',
     PUBLISHED: 'bg-green-500',
     ARCHIVED: 'bg-gray-500',
     PENDING: 'bg-yellow-500',

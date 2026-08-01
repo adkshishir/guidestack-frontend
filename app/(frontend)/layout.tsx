@@ -7,7 +7,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthProvider>
       {/* <Navbar /> */}
-      <MegaMenu logo='G' companyName='GuideStack' />
+      <MegaMenu logo='W' companyName='WealthAlgor' />
       {children}
       <Footer />
     </AuthProvider>

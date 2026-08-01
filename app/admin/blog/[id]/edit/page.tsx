@@ -38,7 +38,7 @@ const blogSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
   excerpt: z.string().optional(),
-  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional(),
+  status: z.enum(['DRAFT', 'REVIEW', 'PUBLISHED', 'ARCHIVED']).optional(),
   htmlContent: z.string().optional(),
   lexicalContent: z.any().optional(),
 });
@@ -216,6 +216,7 @@ export default function EditBlogPage() {
                   label='Status'
                   options={[
                     { value: 'DRAFT', label: 'Draft' },
+                    { value: 'REVIEW', label: 'Pending Review' },
                     { value: 'PUBLISHED', label: 'Published' },
                     { value: 'ARCHIVED', label: 'Archived' },
                   ]}

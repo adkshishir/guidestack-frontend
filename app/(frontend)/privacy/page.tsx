@@ -6,27 +6,36 @@ import { getBaseUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - GuideStack',
+  title: 'Privacy Policy - WealthAlgor',
   description:
-    'Learn about how GuideStack collects, uses, and protects your personal data. Read our privacy policy for complete information on your data rights.',
+    'Learn about how WealthAlgor collects, uses, and protects your personal data. Read our privacy policy for complete information on your data rights.',
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/privacy',
   },
   openGraph: {
-    title: 'Privacy Policy - GuideStack',
+    title: 'Privacy Policy - WealthAlgor',
     description:
-      'Learn about how GuideStack collects, uses, and protects your personal data.',
+      'Learn about how WealthAlgor collects, uses, and protects your personal data.',
     url: '/privacy',
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary',
-    title: 'Privacy Policy - GuideStack',
+    title: 'Privacy Policy - WealthAlgor',
     description:
-      'Learn about how GuideStack collects, uses, and protects your personal data.',
+      'Learn about how WealthAlgor collects, uses, and protects your personal data.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -67,11 +76,11 @@ function generatePrivacyPageSchema() {
       '@type': 'WebPage',
       name: 'Privacy Policy',
       description:
-        'Learn about how GuideStack collects, uses, and protects your personal data.',
+        'Learn about how WealthAlgor collects, uses, and protects your personal data.',
       url: `${siteUrl}/privacy`,
       isPartOf: {
         '@type': 'WebSite',
-        name: 'GuideStack',
+        name: 'WealthAlgor',
         url: siteUrl,
       },
       about: {
@@ -119,7 +128,7 @@ export default function PrivacyPolicyPage() {
                   1. Introduction
                 </h2>
                 <p className='text-gray-700 leading-relaxed'>
-                  Welcome to GuideStack. We respect your privacy and are
+                  Welcome to WealthAlgor. We respect your privacy and are
                   committed to protecting your personal data. This privacy
                   policy will inform you about how we look after your personal
                   data when you visit our website and tell you about your

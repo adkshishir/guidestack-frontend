@@ -50,7 +50,7 @@ export async function generateMetadata({
       transformedPost.tags.length > 0 ? transformedPost.tags : undefined,
     authors: [{ name: authorName }],
     creator: authorName,
-    publisher: 'GuideStack',
+    publisher: 'WealthAlgor',
     metadataBase: new URL(siteUrl),
     alternates: {
       canonical: postUrl,
@@ -59,7 +59,7 @@ export async function generateMetadata({
       title: post.title,
       description: excerpt,
       url: postUrl,
-      siteName: 'GuideStack',
+      siteName: 'WealthAlgor',
       locale: 'en_US',
       type: 'article',
       publishedTime: publishedDate,
@@ -134,7 +134,7 @@ function generateBlogPostSchema(post: any, transformedPost: any) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
@@ -274,7 +274,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         />
 
         <div className='mx-auto max-w-7xl lg:p-6'>
-          <BlogPostLayout>
+          <BlogPostLayout categorySlug={post.blogCategories?.[0]?.category?.slug}>
             <div className='bg-card rounded-xl border border-border shadow-sm py-4'>
               <ViewTracker postId={post.id} />
               <BlogPostDetail post={transformedPost} />

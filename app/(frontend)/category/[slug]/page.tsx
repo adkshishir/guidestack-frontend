@@ -43,34 +43,41 @@ export async function generateMetadata({
           alt: category.name,
         },
       ]
-    : undefined;
+    : [
+        {
+          url: `${siteUrl}/logo.png`,
+          width: 1024,
+          height: 1024,
+          alt: 'WealthAlgor',
+        },
+      ];
 
   return {
-    title: `${category.name} - GuideStack`,
+    title: `${category.name} - WealthAlgor`,
     description:
       category.description ||
-      `Browse all articles in the ${category.name} category on GuideStack.`,
+      `Browse all articles in the ${category.name} category on WealthAlgor.`,
     metadataBase: new URL(siteUrl),
     alternates: {
       canonical: categoryUrl,
     },
     openGraph: {
-      title: `${category.name} - GuideStack`,
+      title: `${category.name} - WealthAlgor`,
       description:
         category.description ||
-        `Browse all articles in the ${category.name} category on GuideStack.`,
+        `Browse all articles in the ${category.name} category on WealthAlgor.`,
       url: categoryUrl,
-      siteName: 'GuideStack',
+      siteName: 'WealthAlgor',
       locale: 'en_US',
       type: 'website',
       images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${category.name} - GuideStack`,
+      title: `${category.name} - WealthAlgor`,
       description:
         category.description ||
-        `Browse all articles in the ${category.name} category on GuideStack.`,
+        `Browse all articles in the ${category.name} category on WealthAlgor.`,
       images: ogImages,
     },
     robots: {
@@ -114,7 +121,7 @@ function generateCategorySchema(
     },
     isPartOf: {
       '@type': 'WebSite',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
       url: siteUrl,
     },
   };

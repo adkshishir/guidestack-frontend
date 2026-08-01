@@ -55,36 +55,37 @@
   --card-foreground: oklch(0.15 0.02 265);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.15 0.02 265);
-  /* Deep indigo-navy — academic authority, trust */
-  --primary: oklch(0.42 0.17 265);
+  /* Deep navy-charcoal — financial authority, not a friendly SaaS blue */
+  --primary: oklch(0.24 0.06 255);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.96 0.005 265);
   --secondary-foreground: oklch(0.15 0.02 265);
   --muted: oklch(0.962 0.005 265);
   --muted-foreground: oklch(0.46 0.012 265);
-  /* Warm amber accent — learning CTAs and highlights */
-  --accent: oklch(0.96 0.018 90);
+  /* Cool neutral accent — no amber "sale" undertone */
+  --accent: oklch(0.96 0.01 255);
   --accent-foreground: oklch(0.15 0.02 265);
-  /* Amber highlight for special CTAs */
-  --highlight: oklch(0.78 0.14 75);
-  --highlight-foreground: oklch(0.15 0.02 265);
+  /* Emerald highlight — the one "growth" color, used sparingly */
+  --highlight: oklch(0.72 0.14 155);
+  --highlight-foreground: oklch(0.15 0.02 255);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.91 0.008 265);
   --input: oklch(0.91 0.008 265);
-  --ring: oklch(0.42 0.17 265);
-  --chart-1: oklch(0.42 0.17 265);
-  --chart-2: oklch(0.55 0.15 200);
-  --chart-3: oklch(0.65 0.13 160);
-  --chart-4: oklch(0.78 0.14 75);
-  --chart-5: oklch(0.62 0.18 30);
+  --ring: oklch(0.24 0.06 255);
+  /* Chart semantics: emerald = growth, navy = baseline, steel = secondary, amber/red = cost or loss */
+  --chart-1: oklch(0.56 0.15 155);
+  --chart-2: oklch(0.24 0.06 255);
+  --chart-3: oklch(0.6 0.1 210);
+  --chart-4: oklch(0.72 0.14 55);
+  --chart-5: oklch(0.55 0.19 25);
   --sidebar: oklch(0.985 0.003 265);
   --sidebar-foreground: oklch(0.15 0.02 265);
-  --sidebar-primary: oklch(0.42 0.17 265);
+  --sidebar-primary: oklch(0.24 0.06 255);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.96 0.005 265);
   --sidebar-accent-foreground: oklch(0.15 0.02 265);
   --sidebar-border: oklch(0.91 0.008 265);
-  --sidebar-ring: oklch(0.42 0.17 265);
+  --sidebar-ring: oklch(0.24 0.06 255);
 }
 
 .dark {
@@ -94,29 +95,29 @@
   --card-foreground: oklch(0.94 0.006 265);
   --popover: oklch(0.16 0.015 265);
   --popover-foreground: oklch(0.94 0.006 265);
-  --primary: oklch(0.62 0.18 265);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary: oklch(0.68 0.09 255);
+  --primary-foreground: oklch(0.12 0.015 265);
   --secondary: oklch(0.21 0.015 265);
   --secondary-foreground: oklch(0.94 0.006 265);
   --muted: oklch(0.21 0.015 265);
   --muted-foreground: oklch(0.58 0.012 265);
   --accent: oklch(0.21 0.015 265);
   --accent-foreground: oklch(0.94 0.006 265);
-  --highlight: oklch(0.72 0.14 75);
+  --highlight: oklch(0.65 0.15 155);
   --highlight-foreground: oklch(0.12 0.015 265);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(0.27 0.015 265);
   --input: oklch(0.27 0.015 265);
-  --ring: oklch(0.62 0.18 265);
-  --chart-1: oklch(0.62 0.18 265);
-  --chart-2: oklch(0.65 0.16 200);
-  --chart-3: oklch(0.72 0.14 75);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --ring: oklch(0.68 0.09 255);
+  --chart-1: oklch(0.65 0.15 155);
+  --chart-2: oklch(0.68 0.09 255);
+  --chart-3: oklch(0.68 0.11 210);
+  --chart-4: oklch(0.75 0.13 55);
+  --chart-5: oklch(0.62 0.18 25);
   --sidebar: oklch(0.16 0.015 265);
   --sidebar-foreground: oklch(0.94 0.006 265);
-  --sidebar-primary: oklch(0.62 0.18 265);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary: oklch(0.68 0.09 255);
+  --sidebar-primary-foreground: oklch(0.12 0.015 265);
   --sidebar-accent: oklch(0.21 0.015 265);
   --sidebar-accent-foreground: oklch(0.94 0.006 265);
   --sidebar-border: oklch(0.27 0.015 265);
@@ -319,12 +320,15 @@
   }
 
   .blog-content table {
+    display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
     border-collapse: collapse !important;
     margin: 1.5rem 0 !important;
     font-size: 0.9375rem !important;
     border-radius: 0.5rem !important;
-    overflow: hidden !important;
   }
 
   .blog-content table th,

@@ -5,27 +5,36 @@ import { getBaseUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Contact Us - GuideStack',
+  title: 'Contact Us - WealthAlgor',
   description:
-    'Have a question or want to get in touch? Send us a message and the GuideStack team will respond as soon as possible.',
+    'Have a question or want to get in touch? Send us a message and the WealthAlgor team will respond as soon as possible.',
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
-    title: 'Contact Us - GuideStack',
+    title: 'Contact Us - WealthAlgor',
     description:
-      'Get in touch with the GuideStack team for inquiries regarding finance, AI, and technology insights.',
+      'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
     url: '/contact',
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary',
-    title: 'Contact Us - GuideStack',
+    title: 'Contact Us - WealthAlgor',
     description:
-      'Get in touch with the GuideStack team for inquiries regarding finance, AI, and technology insights.',
+      'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -66,11 +75,11 @@ function generateContactPageSchema() {
       '@type': 'ContactPage',
       name: 'Contact Us',
       description:
-        'Get in touch with the GuideStack team for inquiries regarding finance, AI, and technology insights.',
+        'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
       url: `${siteUrl}/contact`,
       mainEntity: {
         '@type': 'Organization',
-        name: 'GuideStack',
+        name: 'WealthAlgor',
         url: siteUrl,
         contactPoint: {
           '@type': 'ContactPoint',

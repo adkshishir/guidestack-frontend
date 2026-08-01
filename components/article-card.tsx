@@ -50,8 +50,9 @@ export function ArticleCard({
             src={image}
             alt={title}
             fill
+            quality={70}
             className='object-cover group-hover:scale-105 transition-transform duration-500'
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px'
           />
           <div className='absolute inset-0 bg-linear-to-t from-black/20 to-transparent' />
         </Link>

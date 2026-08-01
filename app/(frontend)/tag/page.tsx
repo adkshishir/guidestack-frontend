@@ -6,27 +6,36 @@ import { getBaseUrl } from '@/lib/seo';
 import { Tag } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'All Tags - GuideStack',
+  title: 'All Tags - WealthAlgor',
   description:
-    'Browse all tags on GuideStack. Discover topics and find articles by tag.',
+    'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
   metadataBase: new URL(getBaseUrl()),
   alternates: {
     canonical: '/tag',
   },
   openGraph: {
-    title: 'All Tags - GuideStack',
+    title: 'All Tags - WealthAlgor',
     description:
-      'Browse all tags on GuideStack. Discover topics and find articles by tag.',
+      'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
     url: '/tag',
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'All Tags - GuideStack',
+    title: 'All Tags - WealthAlgor',
     description:
-      'Browse all tags on GuideStack. Discover topics and find articles by tag.',
+      'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -49,7 +58,7 @@ function generateTagsSchema(tags: Array<{ name: string; slug: string }>) {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'All Tags',
-    description: 'Browse all tags on GuideStack',
+    description: 'Browse all tags on WealthAlgor',
     url: `${siteUrl}/tag`,
     mainEntity: {
       '@type': 'ItemList',
@@ -63,7 +72,7 @@ function generateTagsSchema(tags: Array<{ name: string; slug: string }>) {
     },
     isPartOf: {
       '@type': 'WebSite',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
       url: siteUrl,
     },
   };

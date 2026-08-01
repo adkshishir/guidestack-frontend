@@ -32,7 +32,7 @@ const INFO_CARDS = [
   {
     icon: Mail,
     title: 'Email',
-    value: 'contact@guidestack.com',
+    value: 'contact@wealthalgor.com',
   },
   {
     icon: MapPin,

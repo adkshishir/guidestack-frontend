@@ -1,7 +1,7 @@
 import { apiGet, apiPost, apiPatch, apiDelete } from './client';
 import { Comment } from './comments';
 
-export type BlogPostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+export type BlogPostStatus = 'DRAFT' | 'REVIEW' | 'PUBLISHED' | 'ARCHIVED';
 
 export interface AuthorProfile {
   id: number;

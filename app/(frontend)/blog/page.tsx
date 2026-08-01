@@ -8,11 +8,11 @@ import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Blog - GuideStack',
+  title: 'Blog - WealthAlgor',
   description:
-    'Explore the latest articles on AI, finance, and technology from GuideStack. Insights to help you stay ahead in a rapidly evolving world.',
+    'Independent robo-advisor comparisons, automated investing mechanics, and money-habit guides from WealthAlgor.',
   keywords: [
-    'GuideStack blog',
+    'WealthAlgor blog',
     'financial technology',
     'AI insights',
     'algorithmic trading',
@@ -23,19 +23,28 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/blog`,
   },
   openGraph: {
-    title: 'Blog - GuideStack',
+    title: 'Blog - WealthAlgor',
     description:
-      'Explore the latest articles on AI, finance, and technology from GuideStack.',
+      'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
     url: `${siteUrl}/blog`,
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog - GuideStack',
+    title: 'Blog - WealthAlgor',
     description:
-      'Explore the latest articles on AI, finance, and technology from GuideStack.',
+      'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -56,13 +65,13 @@ function generateBlogListingSchema(rawPosts: any[], transformedPosts: any[], tot
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'GuideStack Blog',
+    name: 'WealthAlgor Blog',
     description:
-      'Explore the latest articles on AI, finance, and technology from GuideStack.',
+      'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
     url: `${siteUrl}/blog`,
     publisher: {
       '@type': 'Organization',
-      name: 'GuideStack',
+      name: 'WealthAlgor',
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
@@ -81,7 +90,7 @@ function generateBlogListingSchema(rawPosts: any[], transformedPosts: any[], tot
         datePublished: rawPost.publishedAt || rawPost.createdAt,
         author: {
           '@type': 'Person',
-          name: tp?.author?.name || 'GuideStack Team',
+          name: tp?.author?.name || 'WealthAlgor Team',
         },
       };
     }),
@@ -90,9 +99,9 @@ function generateBlogListingSchema(rawPosts: any[], transformedPosts: any[], tot
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'GuideStack Blog',
+    name: 'WealthAlgor Blog',
     description:
-      'Browse all articles on AI, finance, and technology from GuideStack.',
+      'Browse all robo-advisor and automated investing articles from WealthAlgor.',
     url: `${siteUrl}/blog`,
     mainEntity: {
       '@type': 'ItemList',

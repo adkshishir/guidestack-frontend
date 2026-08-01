@@ -3,7 +3,8 @@
 import React from 'react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ChevronDown, BookOpen, X, Menu } from 'lucide-react';
+import Image from 'next/image';
+import { ChevronDown, X, Menu } from 'lucide-react';
 import { NavigationCategory, taxonomyApi } from '@/lib/api/taxonomy';
 
 interface MegaMenuProps {
@@ -95,11 +96,11 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
             <div className='flex h-8 items-center justify-between text-xs'>
               <div className='flex-1 text-center font-medium tracking-wide'>
-                Free learning resources — practical guides written for clarity
+                Free robo-advisor calculators — run the numbers before you commit
                 <Link
-                  href='/blog'
+                  href='/tools'
                   className='ml-2 inline-flex items-center gap-0.5 font-semibold underline underline-offset-2 hover:no-underline'>
-                  Start exploring →
+                  Try our tools →
                 </Link>
               </div>
               <button
@@ -120,10 +121,16 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
             {/* Logo */}
             <Link
               href='/'
+              aria-label={`${companyName} home`}
               className='flex shrink-0 items-center gap-2.5 font-bold text-lg'>
-              <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm'>
-                <BookOpen className='h-5 w-5' />
-              </div>
+              <Image
+                src='/logo.png'
+                alt=''
+                width={36}
+                height={36}
+                className='h-9 w-9 rounded-lg'
+                priority
+              />
               <span className='hidden sm:inline text-foreground tracking-tight'>
                 {companyName}
               </span>
@@ -131,6 +138,11 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
 
             {/* Desktop category nav */}
             <div className='hidden lg:flex items-center gap-1 flex-1 justify-center'>
+              <Link
+                href='/tools'
+                className='flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-all duration-150'>
+                Tools
+              </Link>
               {Object.entries(categories).map(([key, category]) => (
                 <div
                   key={key}
@@ -255,6 +267,12 @@ export default function MegaMenu({ logo, companyName }: MegaMenuProps) {
       {isMobileOpen && (
         <div className='lg:hidden border-b border-border bg-card shadow-lg'>
           <div className='max-h-[calc(100vh-64px)] overflow-y-auto divide-y divide-border'>
+            <Link
+              href='/tools'
+              onClick={() => setIsMobileOpen(false)}
+              className='block px-5 py-4 text-sm font-semibold text-foreground hover:bg-secondary transition-colors'>
+              Tools
+            </Link>
             {Object.entries(categories).map(([key, category]) => (
               <div key={key}>
                 <button

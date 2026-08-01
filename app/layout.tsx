@@ -2,9 +2,7 @@ import type React from 'react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
-import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from 'sonner';
-import { ConditionalLayout } from '@/components/admin/conditional-layout';
 // Ads disabled — uncomment to re-enable
 // import { GoogleAdSense } from '@/components/adsense';
 import './globals.css';
@@ -21,43 +19,52 @@ const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
-    template: '%s | GuideStack',
+    default: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
+    template: '%s | WealthAlgor',
   },
   description:
-    'Actionable step-by-step guides for software development, AI, cybersecurity, personal finance, and productivity. Learn by doing.',
+    'Independent robo-advisor comparisons, the mechanics behind automated investing, and free calculators — tax-loss harvesting, fees, rebalancing, and more — that use your own numbers.',
   keywords: [
-    'step-by-step tutorials',
-    'software development guides',
-    'programming tutorials',
-    'AI tutorials',
-    'cybersecurity guides',
-    'developer tools',
-    'how to code',
-    'tech guides',
+    'robo advisor',
+    'robo advisor comparison',
+    'automated investing',
+    'tax loss harvesting calculator',
+    'robo advisor fees',
+    'betterment vs wealthfront',
+    'best robo advisor',
+    'hybrid robo advisor',
   ],
-  authors: [{ name: 'GuideStack Team' }],
-  creator: 'GuideStack',
-  publisher: 'GuideStack',
+  authors: [{ name: 'WealthAlgor Team' }],
+  creator: 'WealthAlgor',
+  publisher: 'WealthAlgor',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
+    title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
-      'Actionable step-by-step guides for developers, creators, and curious minds. Learn by doing.',
+      'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
     url: siteUrl,
-    siteName: 'GuideStack',
+    siteName: 'WealthAlgor',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'WealthAlgor',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GuideStack - Step-by-Step Technical Guides & Tutorials',
+    title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
     description:
-      'Actionable step-by-step guides for developers, creators, and curious minds.',
+      'Independent robo-advisor comparisons, mechanics explainers, and free calculators built around your own numbers.',
+    images: ['/logo.png'],
   },
   icons: {
     icon: [
@@ -98,27 +105,27 @@ const globalStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${siteUrl}/#organization`,
-    name: 'GuideStack',
+    name: 'WealthAlgor',
     url: siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/icon.svg`,
-      width: 512,
-      height: 512,
+      url: `${siteUrl}/logo.png`,
+      width: 1024,
+      height: 1024,
     },
     description:
-      'Step-by-step technical guides, tutorials, and practical how-to articles.',
-    foundingDate: '2024',
+      'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators.',
+    foundingDate: '2026',
     sameAs: [],
   },
   website: {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${siteUrl}/#website`,
-    name: 'GuideStack',
+    name: 'WealthAlgor',
     url: siteUrl,
     description:
-      'Step-by-step technical guides, tutorials, and practical how-to articles.',
+      'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators.',
     publisher: {
       '@id': `${siteUrl}/#organization`,
     },
@@ -179,7 +186,6 @@ export default function RootLayout({
 
         {/* Google AdSense - loaded after page is interactive for better Core Web Vitals */}
 
-        <Analytics />
         <Toaster />
       </body>
     </html>
