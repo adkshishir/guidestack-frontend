@@ -32,7 +32,6 @@ import { blogApi, CreateBlogDto } from '@/lib/api/blog';
 import { ArrowLeft, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { SerializedEditorState } from 'lexical';
 
 const blogSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -40,15 +39,11 @@ const blogSchema = z.object({
   excerpt: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional(),
   htmlContent: z.string().optional(),
-  lexicalContent: z.any().optional(), // Store Lexical serialized state
 });
 
 export default function CreateBlogPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [lexicalState, setLexicalState] =
-    useState<SerializedEditorState | null>(null);
 
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
@@ -58,25 +53,15 @@ export default function CreateBlogPage() {
       excerpt: '',
       status: 'DRAFT',
       htmlContent: '',
-      lexicalContent: null,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof blogSchema>) => {
     setIsSubmitting(true);
     try {
-      // Convert Lexical state to HTML if available
-      let htmlContent = values.htmlContent || '';
-      if (lexicalState) {
-        // For now, we'll store the serialized state as JSON in htmlContent
-        // You can convert it to HTML on the backend or frontend as needed
-        htmlContent = JSON.stringify(lexicalState);
-      }
-
-      const response = await blogApi.create({
-        ...values,
-        htmlContent,
-      } as CreateBlogDto);
+      // The editor already emits HTML, which is what the API stores and the
+      // public site renders — no conversion step needed.
+      const response = await blogApi.create(values as CreateBlogDto);
 
       if (response.data) {
         toast.success('Blog post created successfully');
@@ -89,11 +74,6 @@ export default function CreateBlogPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleEditorChange = (serializedState: SerializedEditorState) => {
-    setLexicalState(serializedState);
-    form.setValue('lexicalContent', serializedState);
   };
 
   return (
@@ -156,10 +136,7 @@ export default function CreateBlogPage() {
                         <div className='space-y-2'>
                           <BlogEditor
                             value={field.value}
-                            onChange={(serializedState) => {
-                              handleEditorChange(serializedState);
-                              field.onChange(JSON.stringify(serializedState));
-                            }}
+                            onChange={field.onChange}
                             placeholder='Start writing your blog post...'
                           />
                           <p className='text-xs text-muted-foreground'>

@@ -20,14 +20,14 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'All Topics - WealthAlgor',
+  title: 'All Topics',
   description:
     'Browse all topic areas on WealthAlgor. Explore robo-advisor comparisons, automated investing mechanics, alternatives to pure robo-advisors, and automated money habits.',
   alternates: {
     canonical: '/category',
   },
   openGraph: {
-    title: 'All Topics - WealthAlgor',
+    title: 'All Topics',
     description:
       'Browse all topic areas on WealthAlgor. Practical guides on tech, finance, and more.',
     url: '/category',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'All Topics - WealthAlgor',
+    title: 'All Topics',
     description: 'Browse all topics on WealthAlgor.',
     images: ['/banner_wealthalgor.png'],
   },

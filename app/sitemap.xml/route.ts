@@ -1,5 +1,5 @@
 import { serverApi } from '@/lib/api/server';
-import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
+import { getBaseUrl, toAbsoluteHttpsUrl, MIN_POSTS_FOR_INDEX } from '@/lib/seo';
 import { TOOLS } from '@/lib/tools-data';
 
 type SitemapImage = {
@@ -36,6 +36,7 @@ const staticPaths = [
   })),
   { path: '/category', changeFrequency: 'weekly' as const, priority: '0.8' },
   { path: '/tag', changeFrequency: 'weekly' as const, priority: '0.8' },
+  { path: '/about', changeFrequency: 'monthly' as const, priority: '0.7' },
   { path: '/contact', changeFrequency: 'monthly' as const, priority: '0.6' },
   { path: '/privacy', changeFrequency: 'monthly' as const, priority: '0.5' },
 ];
@@ -121,12 +122,29 @@ export async function GET() {
       }
     }
 
+    // Only submit taxonomy pages that actually have published posts —
+    // an empty tag/category page is thin content and shouldn't be indexed.
+    const usedTagSlugs = new Set<string>();
+    // Count posts per category so the sitemap applies the same MIN_POSTS_FOR_INDEX
+    // threshold the category page's robots metadata does — submitting a URL we
+    // also noindex is a contradictory signal.
+    const categoryPostCounts = new Map<string, number>();
+    for (const post of posts) {
+      for (const bt of post.blogTags || []) {
+        if (bt.tag?.slug) usedTagSlugs.add(bt.tag.slug);
+      }
+      for (const bc of post.blogCategories || []) {
+        const slug = bc.category?.slug;
+        if (slug) categoryPostCounts.set(slug, (categoryPostCounts.get(slug) ?? 0) + 1);
+      }
+    }
+
     // 1. Static routes (exact order: home, blog, category, tag, contact, privacy)
     staticRoutes.forEach(add);
 
-    // 2. Tag index and all tag slugs (wealthalgor.com/tag, wealthalgor.com/tag/[slug])
+    // 2. Tag index and tag slugs with at least one published post
     for (const tag of tags) {
-      if (tag?.slug) {
+      if (tag?.slug && usedTagSlugs.has(tag.slug)) {
         add({
           url: `${baseUrl}/tag/${tag.slug}`,
           lastModified: new Date(tag.updatedAt || Date.now()).toISOString(),
@@ -136,9 +154,12 @@ export async function GET() {
       }
     }
 
-    // 3. Category index and all category slugs (wealthalgor.com/category, wealthalgor.com/category/[slug])
+    // 3. Category index and category slugs with at least one published post
     for (const category of categories) {
-      if (category?.slug) {
+      if (
+        category?.slug &&
+        (categoryPostCounts.get(category.slug) ?? 0) >= MIN_POSTS_FOR_INDEX
+      ) {
         add({
           url: `${baseUrl}/category/${category.slug}`,
           lastModified: new Date(

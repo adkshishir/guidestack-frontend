@@ -6,7 +6,7 @@ import { getBaseUrl } from '@/lib/seo';
 import { Tag } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'All Tags - WealthAlgor',
+  title: 'All Tags',
   description:
     'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
   metadataBase: new URL(getBaseUrl()),
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: '/tag',
   },
   openGraph: {
-    title: 'All Tags - WealthAlgor',
+    title: 'All Tags',
     description:
       'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
     url: '/tag',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'All Tags - WealthAlgor',
+    title: 'All Tags',
     description:
       'Browse all tags on WealthAlgor. Discover topics and find articles by tag.',
     images: ['/banner_wealthalgor.png'],

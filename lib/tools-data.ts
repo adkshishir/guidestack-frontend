@@ -16,12 +16,18 @@ export interface ToolDefinition {
   description: string;
   /** Matching subcategory slug from backend/src/seed-categories.ts */
   categorySlug: string;
+  /**
+   * True when the tool ships hardcoded provider fee figures, which must carry a
+   * visible verification date. Tools driven purely by user input do not.
+   */
+  usesPlatformFeeData?: boolean;
   faqs: ToolFaq[];
 }
 
 export const TOOLS: ToolDefinition[] = [
   {
-    slug: 'fee-comparison-calculator',
+    slug: 'robo-advisor-fee-calculator',
+    usesPlatformFeeData: true,
     title: 'Robo-Advisor Fee Comparison Calculator',
     shortTitle: 'Fee Comparison Calculator',
     description:
@@ -51,7 +57,7 @@ export const TOOLS: ToolDefinition[] = [
     ],
   },
   {
-    slug: 'retirement-savings-calculator',
+    slug: 'robo-advisor-retirement-calculator',
     title: 'Retirement Savings & Drawdown Calculator',
     shortTitle: 'Retirement Calculator',
     description:
@@ -81,7 +87,7 @@ export const TOOLS: ToolDefinition[] = [
     ],
   },
   {
-    slug: 'tax-loss-harvesting-estimator',
+    slug: 'tax-loss-harvesting-calculator',
     title: 'Tax-Loss Harvesting Savings Estimator',
     shortTitle: 'Tax-Loss Harvesting Estimator',
     description:
@@ -141,7 +147,7 @@ export const TOOLS: ToolDefinition[] = [
     ],
   },
   {
-    slug: 'dca-vs-lump-sum-simulator',
+    slug: 'dca-vs-lump-sum-calculator',
     title: 'Dollar-Cost Averaging vs Lump-Sum Simulator',
     shortTitle: 'DCA vs Lump-Sum Simulator',
     description:
@@ -171,7 +177,7 @@ export const TOOLS: ToolDefinition[] = [
     ],
   },
   {
-    slug: 'round-up-investing-estimator',
+    slug: 'round-up-investing-calculator',
     title: 'Round-Up Investing Growth Estimator',
     shortTitle: 'Round-Up Investing Estimator',
     description:

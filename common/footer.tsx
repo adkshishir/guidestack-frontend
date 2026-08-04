@@ -1,82 +1,27 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { taxonomyApi, NavigationCategory } from '@/lib/api/taxonomy';
-import { newsletterApi } from '@/lib/api/newsletter';
-import {
-  CheckCircle2,
-  Loader2,
-  Scale,
-  Calculator,
-  Shuffle,
-  PiggyBank,
-  Layers,
-} from 'lucide-react';
+import { serverApi } from '@/lib/api/server';
+import { FooterNewsletter } from './footer-newsletter';
+import { Scale, Calculator, Shuffle, PiggyBank, Layers } from 'lucide-react';
 
 const QUICK_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Tools & Calculators', href: '/tools' },
   { label: 'All Guides', href: '/blog' },
   { label: 'Topics', href: '/category' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
-export function Footer() {
-  const [categories, setCategories] = useState<NavigationCategory[]>([]);
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [subscribeStatus, setSubscribeStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
-  const [statusMessage, setStatusMessage] = useState('');
-
-  useEffect(() => {
-    loadCategories();
-  }, []);
-
-  const loadCategories = async () => {
-    const response = await taxonomyApi.navigation.getCategories();
-    if (response.data) {
-      setCategories(response.data);
-    }
-  };
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || isLoading) return;
-
-    setIsLoading(true);
-    setSubscribeStatus('idle');
-
-    try {
-      const response = await newsletterApi.subscribe({
-        email,
-        source: 'footer',
-      });
-      if (response.data?.success) {
-        setSubscribeStatus('success');
-        setStatusMessage(response.data.message);
-        setEmail('');
-      } else {
-        setSubscribeStatus('error');
-        setStatusMessage(response.error?.message || 'Failed to subscribe.');
-      }
-    } catch {
-      setSubscribeStatus('error');
-      setStatusMessage('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => {
-        setSubscribeStatus('idle');
-        setStatusMessage('');
-      }, 5000);
-    }
-  };
+/**
+ * Server component: the topic links must exist in the initial HTML. Fetching
+ * them client-side left `Loading topics...` in the server response, so Googlebot
+ * saw no internal links here at all.
+ */
+export async function Footer() {
+  const { data } = await serverApi.getNavigationCategories();
+  const categories = data ?? [];
 
   return (
     <footer className='bg-foreground text-background'>
@@ -155,19 +100,15 @@ export function Footer() {
               Topics
             </h3>
             <nav className='space-y-3'>
-              {categories.length > 0 ? (
-                categories.slice(0, 7).map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/category/${category.slug}`}
-                    className='flex items-center gap-2 text-sm text-background/65 hover:text-background transition-colors duration-150 group'>
-                    <Layers className='h-3.5 w-3.5 text-background/30 group-hover:text-background/60 transition-colors' />
-                    {category.name}
-                  </Link>
-                ))
-              ) : (
-                <p className='text-sm text-background/70'>Loading topics...</p>
-              )}
+              {categories.slice(0, 7).map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/category/${category.slug}`}
+                  className='flex items-center gap-2 text-sm text-background/65 hover:text-background transition-colors duration-150 group'>
+                  <Layers className='h-3.5 w-3.5 text-background/30 group-hover:text-background/60 transition-colors' />
+                  {category.name}
+                </Link>
+              ))}
               {categories.length > 7 && (
                 <Link
                   href='/category'
@@ -187,45 +128,7 @@ export function Footer() {
               New robo-advisor comparisons and calculator updates delivered
               weekly. No spam.
             </p>
-            <form onSubmit={handleSubscribe} className='space-y-2.5'>
-              <Input
-                type='email'
-                placeholder='your@email.com'
-                className='bg-background/10 border-background/15 text-background placeholder:text-background/35 focus-visible:border-primary focus-visible:ring-0 text-sm'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading || subscribeStatus === 'success'}
-                required
-              />
-              <Button
-                type='submit'
-                className='w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm'
-                disabled={isLoading || subscribeStatus === 'success'}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    Subscribing...
-                  </>
-                ) : subscribeStatus === 'success' ? (
-                  <>
-                    <CheckCircle2 className='mr-2 h-4 w-4' />
-                    Subscribed!
-                  </>
-                ) : (
-                  'Subscribe Free'
-                )}
-              </Button>
-              {statusMessage && (
-                <p
-                  className={`text-xs ${
-                    subscribeStatus === 'success'
-                      ? 'text-green-400'
-                      : 'text-red-400'
-                  }`}>
-                  {statusMessage}
-                </p>
-              )}
-            </form>
+            <FooterNewsletter />
           </div>
         </div>
       </div>
@@ -238,6 +141,9 @@ export function Footer() {
               &copy; {new Date().getFullYear()} WealthAlgor. All rights reserved.
             </p>
             <div className='flex gap-5 text-xs text-background/70'>
+              <Link href='/about' className='hover:text-background transition-colors'>
+                About
+              </Link>
               <Link href='/privacy' className='hover:text-background transition-colors'>
                 Privacy Policy
               </Link>

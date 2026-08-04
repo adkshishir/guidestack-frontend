@@ -8,22 +8,15 @@ import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Blog - WealthAlgor',
+  title: 'Blog',
   description:
     'Independent robo-advisor comparisons, automated investing mechanics, and money-habit guides from WealthAlgor.',
-  keywords: [
-    'WealthAlgor blog',
-    'financial technology',
-    'AI insights',
-    'algorithmic trading',
-    'wealth management',
-  ],
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: `${siteUrl}/blog`,
   },
   openGraph: {
-    title: 'Blog - WealthAlgor',
+    title: 'Blog',
     description:
       'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
     url: `${siteUrl}/blog`,
@@ -41,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog - WealthAlgor',
+    title: 'Blog',
     description:
       'Explore robo-advisor comparisons and automated investing guides from WealthAlgor.',
     images: ['/banner_wealthalgor.png'],

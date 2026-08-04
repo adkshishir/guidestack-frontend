@@ -26,12 +26,13 @@ export async function generateMetadata({
     };
   }
 
-  const { tag } = response.data;
+  const { tag, posts } = response.data;
+  const hasPosts = (posts?.length ?? 0) > 0;
   const siteUrl = getBaseUrl();
   const tagUrl = `${siteUrl}/tag/${slug}`;
 
   return {
-    title: `#${tag.name} - WealthAlgor`,
+    title: `#${tag.name}`,
     description:
       tag.description ||
       `Browse all articles tagged with #${tag.name} on WealthAlgor.`,
@@ -66,10 +67,10 @@ export async function generateMetadata({
       images: ['/banner_wealthalgor.png'],
     },
     robots: {
-      index: true,
+      index: hasPosts,
       follow: true,
       googleBot: {
-        index: true,
+        index: hasPosts,
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',

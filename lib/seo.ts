@@ -7,6 +7,13 @@
 const DEFAULT_SITE_URL = 'https://wealthalgor.com';
 
 /**
+ * Minimum published posts before a taxonomy page (category/tag) is worth
+ * indexing. Below this it is a thin shell that hurts sitewide quality signals.
+ * Used by both the page-level `robots` metadata and the sitemap.
+ */
+export const MIN_POSTS_FOR_INDEX = 3;
+
+/**
  * Returns the site base URL with protocol forced to HTTPS.
  * Use this for all canonical URLs, JSON-LD schema, sitemap, and robots.
  * Prevents breadcrumb/FAQ drops from mixed content or accidental http.

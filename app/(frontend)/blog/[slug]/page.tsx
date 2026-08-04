@@ -4,6 +4,7 @@ import { PageHeader } from '@/components/page-header';
 import { BlogPostDetail } from '@/components/blog-post-detail';
 import { BlogPostLayout } from '@/components/blog-post-layout';
 import { RelatedPosts } from '@/components/related-posts';
+import { AuthorByline } from '@/components/author-byline';
 import { CommentsSection } from '@/components/comments-section';
 import { ViewTracker } from '@/components/view-tracker';
 import { serverApi } from '@/lib/api/server';
@@ -46,8 +47,6 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: excerpt,
-    keywords:
-      transformedPost.tags.length > 0 ? transformedPost.tags : undefined,
     authors: [{ name: authorName }],
     creator: authorName,
     publisher: 'WealthAlgor',
@@ -130,17 +129,20 @@ function generateBlogPostSchema(post: any, transformedPost: any) {
     author: {
       '@type': 'Person',
       name: transformedPost.author.name,
-      url: `${siteUrl}/author/${transformedPost.author.name.toLowerCase().replace(/\s+/g, '-')}`,
+      // /about is the real author profile; there is no /author/[slug] route, and
+      // pointing schema at a 404 weakens rather than supports the E-E-A-T claim.
+      url: `${siteUrl}/about`,
     },
     publisher: {
       '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
       name: 'WealthAlgor',
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/icon.svg`,
-        width: 512,
-        height: 512,
+        url: `${siteUrl}/primary_wealthalgor.png`,
+        width: 223,
+        height: 250,
       },
     },
     mainEntityOfPage: {
@@ -172,7 +174,9 @@ function generateBlogPostSchema(post: any, transformedPost: any) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
+        // Mirrors the visible breadcrumb label ("All Guides") — schema that
+        // disagrees with the rendered trail risks the rich result being dropped.
+        name: 'All Guides',
         item: `${siteUrl}/blog`,
       },
       {
@@ -220,7 +224,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const response = await serverApi.getBlogPostBySlug(slug);
 
-  if (!response.data) {
+  // The API returns a post at any status, so DRAFT/REVIEW/ARCHIVED posts were
+  // publicly reachable by URL even though they are absent from every listing.
+  // Unapproved content must not be readable or indexable — 404 it.
+  if (!response.data || response.data.status !== 'PUBLISHED') {
     notFound();
   }
 
@@ -278,6 +285,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className='bg-card rounded-xl border border-border shadow-sm py-4'>
               <ViewTracker postId={post.id} />
               <BlogPostDetail post={transformedPost} />
+              <div className='px-4 pt-2 sm:px-6'>
+                <AuthorByline />
+              </div>
             </div>
           </BlogPostLayout>
           <CommentsSection blogPostId={post.id} />

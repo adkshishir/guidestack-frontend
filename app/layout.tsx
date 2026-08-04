@@ -7,6 +7,7 @@ import { Toaster } from 'sonner';
 // import { GoogleAdSense } from '@/components/adsense';
 import './globals.css';
 import { getBaseUrl } from '@/lib/seo';
+import { SITE_AUTHOR } from '@/lib/site-config';
 
 const _geist = Geist({ subsets: ['latin'] });
 const _geistMono = Geist_Mono({ subsets: ['latin'] });
@@ -15,6 +16,9 @@ const siteUrl = getBaseUrl();
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingSiteVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+// GTM container. Set NEXT_PUBLIC_GTM_ID to override (e.g. to disable it in a
+// non-production environment by setting it empty).
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-PMKKMRQK';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -24,17 +28,7 @@ export const metadata: Metadata = {
   },
   description:
     'Independent robo-advisor comparisons, the mechanics behind automated investing, and free calculators — tax-loss harvesting, fees, rebalancing, and more — that use your own numbers.',
-  keywords: [
-    'robo advisor',
-    'robo advisor comparison',
-    'automated investing',
-    'tax loss harvesting calculator',
-    'robo advisor fees',
-    'betterment vs wealthfront',
-    'best robo advisor',
-    'hybrid robo advisor',
-  ],
-  authors: [{ name: 'WealthAlgor Team' }],
+  authors: [{ name: SITE_AUTHOR.name, url: `${siteUrl}/about` }],
   creator: 'WealthAlgor',
   publisher: 'WealthAlgor',
   formatDetection: {
@@ -80,7 +74,7 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   verification: {
-    google: googleSiteVerification || 'googlee5a6779efc4b2448',
+    google: googleSiteVerification || 'google96b37cac1dc2ce53',
     ...(bingSiteVerification
       ? {
           other: {
@@ -112,7 +106,21 @@ const globalStructuredData = {
     description:
       'Independent robo-advisor comparisons, automated investing mechanics, and free financial calculators.',
     foundingDate: '2026',
-    sameAs: [],
+    // No `sameAs` here on purpose: the profiles below belong to the founder, not
+    // to the organization. They live on the Person node, which `founder` links to.
+    founder: {
+      '@type': 'Person',
+      '@id': `${siteUrl}/about#person`,
+      name: SITE_AUTHOR.name,
+      jobTitle: SITE_AUTHOR.role,
+      url: `${siteUrl}/about`,
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'editorial',
+      url: `${siteUrl}/contact`,
+      ...(SITE_AUTHOR.email ? { email: SITE_AUTHOR.email } : {}),
+    },
   },
   website: {
     '@context': 'https://schema.org',
@@ -161,6 +169,26 @@ export default function RootLayout({
         {/* <GoogleAdSense /> */}
       </head>
       <body className={`font-sans antialiased`}>
+        {/* GTM noscript fallback — must be the first thing in <body> */}
+        {gtmId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height='0'
+              width='0'
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+        )}
+        {gtmId && (
+          <Script id='google-tag-manager' strategy='afterInteractive'>
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');`}
+          </Script>
+        )}
         {gaMeasurementId && (
           <>
             <Script

@@ -5,7 +5,7 @@ import { getBaseUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Contact Us - WealthAlgor',
+  title: 'Contact Us',
   description:
     'Have a question or want to get in touch? Send us a message and the WealthAlgor team will respond as soon as possible.',
   metadataBase: new URL(siteUrl),
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     canonical: '/contact',
   },
   openGraph: {
-    title: 'Contact Us - WealthAlgor',
+    title: 'Contact Us',
     description:
       'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
     url: '/contact',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'Contact Us - WealthAlgor',
+    title: 'Contact Us',
     description:
       'Get in touch with the WealthAlgor team for inquiries about robo-advisors, automated investing, or the site.',
     images: ['/banner_wealthalgor.png'],

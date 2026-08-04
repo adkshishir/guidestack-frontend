@@ -5,22 +5,17 @@ import { NewsletterSection } from '@/components/newsletter-section';
 import { serverApi } from '@/lib/api/server';
 import { transformBlogPostForDisplay } from '@/lib/blog-utils';
 import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
+import { SITE_AUTHOR } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
+  // `absolute` opts out of the root `%s | WealthAlgor` template — the homepage
+  // title already leads with the brand, so the suffix would duplicate it.
+  title: {
+    absolute: 'WealthAlgor - Robo-Advisor Reviews, Tools & Automated Investing Guides',
+  },
   description:
     'Independent robo-advisor comparisons, the mechanics behind automated investing, and free calculators for fees, tax-loss harvesting, and rebalancing.',
-  keywords: [
-    'robo advisor',
-    'robo advisor comparison',
-    'automated investing',
-    'tax loss harvesting calculator',
-    'robo advisor fees',
-    'betterment vs wealthfront',
-    'best robo advisor',
-    'hybrid robo advisor',
-  ],
-  authors: [{ name: 'WealthAlgor Team' }],
+  authors: [{ name: SITE_AUTHOR.name, url: `${getBaseUrl()}/about` }],
   creator: 'WealthAlgor',
   publisher: 'WealthAlgor',
   formatDetection: {

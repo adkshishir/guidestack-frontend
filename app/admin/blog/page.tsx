@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ProtectedRoute } from '@/components/admin/protected-route';
-import { DataTable, Column, StatusBadge } from '@/components/admin/data-table';
+import { DataTable, Column } from '@/components/admin/data-table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,15 +15,19 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { blogApi, BlogPost, BlogPostStatus } from '@/lib/api/blog';
-import { Plus } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
-const STATUS_FILTERS: { value: BlogPostStatus | 'ALL'; label: string }[] = [
-  { value: 'ALL', label: 'All statuses' },
+const STATUS_OPTIONS: { value: BlogPostStatus; label: string }[] = [
   { value: 'DRAFT', label: 'Draft' },
   { value: 'REVIEW', label: 'Pending Review' },
   { value: 'PUBLISHED', label: 'Published' },
   { value: 'ARCHIVED', label: 'Archived' },
+];
+
+const STATUS_FILTERS: { value: BlogPostStatus | 'ALL'; label: string }[] = [
+  { value: 'ALL', label: 'All statuses' },
+  ...STATUS_OPTIONS,
 ];
 
 export default function BlogPage() {
@@ -33,6 +37,8 @@ export default function BlogPage() {
   const [statusFilter, setStatusFilter] = useState<BlogPostStatus | 'ALL'>(
     'ALL',
   );
+  /** Post id currently being saved, so only its row shows a spinner. */
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
   const loadPosts = async () => {
     setLoading(true);
@@ -49,6 +55,46 @@ export default function BlogPage() {
   useEffect(() => {
     loadPosts();
   }, []);
+
+  /**
+   * Inline status change straight from the list — the approval path for
+   * AI-generated posts, which land in REVIEW and would otherwise need a trip
+   * through the full edit form just to be published.
+   */
+  const handleStatusChange = async (post: BlogPost, next: BlogPostStatus) => {
+    if (next === post.status) return;
+
+    if (
+      next === 'PUBLISHED' &&
+      !confirm(`Publish "${post.title}"? It will become publicly visible.`)
+    ) {
+      return;
+    }
+
+    setUpdatingId(post.id);
+    // Optimistic: the select shows the new value immediately, and is rolled
+    // back below if the request fails.
+    setPosts((current) =>
+      current.map((p) => (p.id === post.id ? { ...p, status: next } : p)),
+    );
+
+    const response = await blogApi.update(post.id, { status: next });
+    if (response.error) {
+      setPosts((current) =>
+        current.map((p) =>
+          p.id === post.id ? { ...p, status: post.status } : p,
+        ),
+      );
+      toast.error(response.error.message || 'Failed to update status');
+    } else {
+      toast.success(
+        next === 'PUBLISHED'
+          ? `"${post.title}" is now live`
+          : `Status set to ${next.toLowerCase()}`,
+      );
+    }
+    setUpdatingId(null);
+  };
 
   const handleEdit = (post: BlogPost) => {
     router.push(`/admin/blog/${post.id}/edit`);
@@ -84,7 +130,30 @@ export default function BlogPage() {
     {
       key: 'status',
       header: 'Status',
-      render: (post) => <StatusBadge status={post.status} />,
+      render: (post) => (
+        <div className='flex items-center gap-2'>
+          <Select
+            value={post.status}
+            disabled={updatingId === post.id}
+            onValueChange={(value) =>
+              handleStatusChange(post, value as BlogPostStatus)
+            }>
+            <SelectTrigger className='h-8 w-[150px]'>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {STATUS_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {updatingId === post.id && (
+            <Loader2 className='h-4 w-4 animate-spin text-muted-foreground' />
+          )}
+        </div>
+      ),
     },
     {
       key: 'createdAt',

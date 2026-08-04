@@ -6,7 +6,7 @@ import { getBaseUrl } from '@/lib/seo';
 const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - WealthAlgor',
+  title: 'Privacy Policy',
   description:
     'Learn about how WealthAlgor collects, uses, and protects your personal data. Read our privacy policy for complete information on your data rights.',
   metadataBase: new URL(siteUrl),
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: '/privacy',
   },
   openGraph: {
-    title: 'Privacy Policy - WealthAlgor',
+    title: 'Privacy Policy',
     description:
       'Learn about how WealthAlgor collects, uses, and protects your personal data.',
     url: '/privacy',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'Privacy Policy - WealthAlgor',
+    title: 'Privacy Policy',
     description:
       'Learn about how WealthAlgor collects, uses, and protects your personal data.',
     images: ['/banner_wealthalgor.png'],

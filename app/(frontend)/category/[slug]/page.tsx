@@ -7,7 +7,7 @@ import { Pagination } from '@/components/pagination';
 import { AdUnit, MultiplexAd } from '@/components/adsense';
 import { serverApi } from '@/lib/api/server';
 import { transformBlogPostForDisplay } from '@/lib/blog-utils';
-import { getBaseUrl, toAbsoluteHttpsUrl } from '@/lib/seo';
+import { getBaseUrl, toAbsoluteHttpsUrl, MIN_POSTS_FOR_INDEX } from '@/lib/seo';
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -27,7 +27,11 @@ export async function generateMetadata({
     };
   }
 
-  const { category } = response.data;
+  const { category, posts } = response.data;
+  // Thin-content guard: a category with only a post or two is an empty shell that
+  // drags down sitewide quality signals. Stay crawlable (follow) but out of the
+  // index until there is real depth. Keep this threshold in sync with the sitemap.
+  const isIndexable = (posts?.length ?? 0) >= MIN_POSTS_FOR_INDEX;
   const siteUrl = getBaseUrl();
   const categoryUrl = `${siteUrl}/category/${slug}`;
 
@@ -53,7 +57,7 @@ export async function generateMetadata({
       ];
 
   return {
-    title: `${category.name} - WealthAlgor`,
+    title: category.name,
     description:
       category.description ||
       `Browse all articles in the ${category.name} category on WealthAlgor.`,
@@ -62,7 +66,7 @@ export async function generateMetadata({
       canonical: categoryUrl,
     },
     openGraph: {
-      title: `${category.name} - WealthAlgor`,
+      title: category.name,
       description:
         category.description ||
         `Browse all articles in the ${category.name} category on WealthAlgor.`,
@@ -74,17 +78,17 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${category.name} - WealthAlgor`,
+      title: category.name,
       description:
         category.description ||
         `Browse all articles in the ${category.name} category on WealthAlgor.`,
       images: ogImages,
     },
     robots: {
-      index: true,
+      index: isIndexable,
       follow: true,
       googleBot: {
-        index: true,
+        index: isIndexable,
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',
@@ -139,8 +143,10 @@ function generateCategorySchema(
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
-        item: `${siteUrl}/blog`,
+        // Must mirror the visible breadcrumb ("Home / Topics / …") — a schema
+        // trail that disagrees with the page is a rich-result validity risk.
+        name: 'Topics',
+        item: `${siteUrl}/category`,
       },
       {
         '@type': 'ListItem',

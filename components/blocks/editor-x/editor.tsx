@@ -27,11 +27,14 @@ export function Editor({
   editorSerializedState,
   onChange,
   onSerializedChange,
+  children,
 }: {
   editorState?: EditorState
   editorSerializedState?: SerializedEditorState
   onChange?: (editorState: EditorState) => void
   onSerializedChange?: (editorSerializedState: SerializedEditorState) => void
+  /** Extra Lexical plugins rendered inside the composer (they need its context). */
+  children?: React.ReactNode
 }) {
   return (
     <div className="bg-background overflow-hidden rounded-lg border shadow">
@@ -46,6 +49,7 @@ export function Editor({
       >
         <TooltipProvider>
           <Plugins />
+          {children}
 
           <OnChangePlugin
             ignoreSelectionChange={true}

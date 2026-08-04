@@ -18,10 +18,35 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+/**
+ * Default advisory fees, read off each provider's own published pricing page.
+ * `pricingUrl` is surfaced in the UI so a reader can check the figure at source
+ * rather than taking ours on trust — and so we can re-verify it quarterly.
+ * Update FEE_DATA_VERIFIED in lib/site-config.ts whenever these change.
+ */
 const PLATFORMS = [
-  { key: 'betterment', name: 'Betterment', defaultFee: 0.25, color: 'var(--chart-2)' },
-  { key: 'wealthfront', name: 'Wealthfront', defaultFee: 0.25, color: 'var(--chart-3)' },
-  { key: 'schwab', name: 'Schwab Intelligent Portfolios', defaultFee: 0, color: 'var(--chart-1)' },
+  {
+    key: 'betterment',
+    name: 'Betterment',
+    defaultFee: 0.25,
+    color: 'var(--chart-2)',
+    pricingUrl: 'https://www.betterment.com/pricing',
+  },
+  {
+    key: 'wealthfront',
+    name: 'Wealthfront',
+    defaultFee: 0.25,
+    color: 'var(--chart-3)',
+    pricingUrl: 'https://www.wealthfront.com/pricing',
+  },
+  {
+    key: 'schwab',
+    name: 'Schwab Intelligent Portfolios',
+    defaultFee: 0,
+    color: 'var(--chart-1)',
+    pricingUrl:
+      'https://www.schwab.com/intelligent-portfolios/what-you-get-and-what-you-pay',
+  },
 ] as const;
 
 const formSchema = z.object({
@@ -175,7 +200,16 @@ export function FeeComparisonCalculator() {
         <CardContent className="grid gap-6 sm:grid-cols-3">
           {PLATFORMS.map((platform) => (
             <div key={platform.key} className="space-y-2">
-              <Label htmlFor={platform.key}>{platform.name}</Label>
+              <Label htmlFor={platform.key} className='flex items-center gap-2'>
+                {platform.name}
+                <a
+                  href={platform.pricingUrl}
+                  target='_blank'
+                  rel='noopener noreferrer nofollow'
+                  className='text-xs font-normal text-primary hover:underline'>
+                  official pricing
+                </a>
+              </Label>
               <Input
                 id={platform.key}
                 type="number"

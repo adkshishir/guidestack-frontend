@@ -32,7 +32,6 @@ import { blogApi, BlogPost } from '@/lib/api/blog';
 import { ArrowLeft, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { SerializedEditorState } from 'lexical';
 
 const blogSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -40,7 +39,6 @@ const blogSchema = z.object({
   excerpt: z.string().optional(),
   status: z.enum(['DRAFT', 'REVIEW', 'PUBLISHED', 'ARCHIVED']).optional(),
   htmlContent: z.string().optional(),
-  lexicalContent: z.any().optional(),
 });
 
 export default function EditBlogPage() {
@@ -50,8 +48,6 @@ export default function EditBlogPage() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lexicalState, setLexicalState] =
-    useState<SerializedEditorState | null>(null);
 
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
@@ -61,7 +57,6 @@ export default function EditBlogPage() {
       excerpt: '',
       status: 'DRAFT',
       htmlContent: '',
-      lexicalContent: null,
     },
   });
 
@@ -76,37 +71,20 @@ export default function EditBlogPage() {
       if (response.data) {
         setPost(response.data);
 
-        // Try to parse htmlContent as Lexical state, otherwise treat as HTML
-        let initialLexicalState: SerializedEditorState | null = null;
-        const htmlContent = response.data.htmlContent || '';
-
-        if (htmlContent) {
-          try {
-            // Try to parse as JSON (Lexical serialized state)
-            const parsed = JSON.parse(htmlContent);
-            if (parsed && parsed.root) {
-              initialLexicalState = parsed;
-            }
-          } catch {
-            // If not JSON, it's HTML - we'll load it as empty and let user edit
-            // In production, you'd convert HTML to Lexical state here
-            initialLexicalState = null;
-          }
-        }
-
-        setLexicalState(initialLexicalState);
-        // Set form values - use JSON string if we have Lexical state, otherwise use HTML
-        const contentValue = initialLexicalState
-          ? JSON.stringify(initialLexicalState)
-          : htmlContent;
+        // Content lives on the blogContent relation, not on the post itself.
+        // Reading the (always null) top-level field was why the editor opened
+        // empty for every post.
+        const htmlContent =
+          response.data.blogContent?.htmlContent ||
+          response.data.htmlContent ||
+          '';
 
         form.reset({
           title: response.data.title,
           slug: response.data.slug,
           excerpt: response.data.excerpt || '',
           status: response.data.status,
-          htmlContent: contentValue,
-          lexicalContent: initialLexicalState,
+          htmlContent,
         });
       } else {
         toast.error(response.error?.message || 'Failed to load blog post');
@@ -123,17 +101,7 @@ export default function EditBlogPage() {
   const onSubmit = async (values: z.infer<typeof blogSchema>) => {
     setIsSubmitting(true);
     try {
-      // Convert Lexical state to HTML if available
-      let htmlContent = values.htmlContent || '';
-      if (lexicalState) {
-        // Store the serialized state as JSON in htmlContent
-        htmlContent = JSON.stringify(lexicalState);
-      }
-
-      const response = await blogApi.update(id, {
-        ...values,
-        htmlContent,
-      });
+      const response = await blogApi.update(id, values);
 
       if (response.data) {
         toast.success('Blog post updated successfully');
@@ -146,11 +114,6 @@ export default function EditBlogPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleEditorChange = (serializedState: SerializedEditorState) => {
-    setLexicalState(serializedState);
-    form.setValue('lexicalContent', serializedState);
   };
 
   if (loading) {
@@ -230,16 +193,8 @@ export default function EditBlogPage() {
                       <FormControl>
                         <div className='space-y-2'>
                           <BlogEditor
-                            key={`editor-${id}-${
-                              lexicalState ? 'loaded' : 'empty'
-                            }`}
                             value={field.value || ''}
-                            onChange={(serializedState) => {
-                              handleEditorChange(serializedState);
-                              const jsonString =
-                                JSON.stringify(serializedState);
-                              field.onChange(jsonString);
-                            }}
+                            onChange={field.onChange}
                             placeholder='Start editing your blog post...'
                           />
                           <p className='text-xs text-muted-foreground'>

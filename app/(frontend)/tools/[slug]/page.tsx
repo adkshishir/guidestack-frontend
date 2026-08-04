@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ArrowRight, Calculator } from 'lucide-react';
 import { PageHeader } from '@/components/page-header';
 import { RelatedPosts } from '@/components/related-posts';
+import { AuthorByline } from '@/components/author-byline';
 import { FeeComparisonCalculator } from '@/components/tools/fee-comparison-calculator';
 import { RetirementSavingsCalculator } from '@/components/tools/retirement-savings-calculator';
 import { TaxLossHarvestingEstimator } from '@/components/tools/tax-loss-harvesting-estimator';
@@ -14,18 +15,19 @@ import { getToolBySlug, TOOLS } from '@/lib/tools-data';
 import { serverApi } from '@/lib/api/server';
 import { transformBlogPostForDisplay } from '@/lib/blog-utils';
 import { getBaseUrl } from '@/lib/seo';
+import { FEE_DATA_VERIFIED } from '@/lib/site-config';
 
 interface ToolPageProps {
   params: Promise<{ slug: string }>;
 }
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
-  'fee-comparison-calculator': FeeComparisonCalculator,
-  'retirement-savings-calculator': RetirementSavingsCalculator,
-  'tax-loss-harvesting-estimator': TaxLossHarvestingEstimator,
+  'robo-advisor-fee-calculator': FeeComparisonCalculator,
+  'robo-advisor-retirement-calculator': RetirementSavingsCalculator,
+  'tax-loss-harvesting-calculator': TaxLossHarvestingEstimator,
   'risk-tolerance-quiz': RiskToleranceQuiz,
-  'dca-vs-lump-sum-simulator': DcaVsLumpSumSimulator,
-  'round-up-investing-estimator': RoundUpInvestingEstimator,
+  'dca-vs-lump-sum-calculator': DcaVsLumpSumSimulator,
+  'round-up-investing-calculator': RoundUpInvestingEstimator,
 };
 
 export async function generateMetadata({
@@ -45,7 +47,7 @@ export async function generateMetadata({
   const toolUrl = `${siteUrl}/tools/${tool.slug}`;
 
   return {
-    title: `${tool.title} - WealthAlgor`,
+    title: `${tool.title}`,
     description: tool.description,
     metadataBase: new URL(siteUrl),
     alternates: {
@@ -202,6 +204,19 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
         <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
           <ToolComponent />
+
+          {tool.usesPlatformFeeData && (
+            <p className='mt-6 rounded-lg border border-border bg-muted/30 px-4 py-3 text-xs leading-relaxed text-muted-foreground'>
+              <strong className='text-foreground'>Fee data last verified:</strong>{' '}
+              <time dateTime={FEE_DATA_VERIFIED}>{FEE_DATA_VERIFIED}</time>. Advisory
+              fees are read from each provider&apos;s own published pricing page
+              (linked beside each platform above) and re-checked quarterly.
+              Providers can change pricing at any time — confirm at source before
+              acting on these numbers.
+            </p>
+          )}
+
+          <AuthorByline reviewedOn={FEE_DATA_VERIFIED} className='mt-10' />
 
           {tool.faqs.length > 0 && (
             <section className='mt-12 border-t border-border pt-8'>

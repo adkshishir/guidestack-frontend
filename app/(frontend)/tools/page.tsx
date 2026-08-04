@@ -6,14 +6,14 @@ import { TOOLS } from '@/lib/tools-data';
 import { getBaseUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Free Robo-Advisor Tools & Calculators - WealthAlgor',
+  title: 'Free Robo-Advisor Tools & Calculators',
   description:
     'Interactive calculators for automated investing decisions: compare robo-advisor fees, project retirement savings, and more.',
   alternates: {
     canonical: '/tools',
   },
   openGraph: {
-    title: 'Free Robo-Advisor Tools & Calculators - WealthAlgor',
+    title: 'Free Robo-Advisor Tools & Calculators',
     description:
       'Interactive calculators for automated investing decisions: compare robo-advisor fees, project retirement savings, and more.',
     url: '/tools',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Free Robo-Advisor Tools & Calculators - WealthAlgor',
+    title: 'Free Robo-Advisor Tools & Calculators',
     description:
       'Interactive calculators for automated investing decisions on WealthAlgor.',
     images: ['/banner_wealthalgor.png'],
